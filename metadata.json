@@ -1,0 +1,8 @@
+{
+  "name": "Twentyfour",
+  "description": "A deliberate 24-hour time ledger and tracker showing where your day goes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

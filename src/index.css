@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-archivo: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Instrument Serif', Georgia, serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-archivo);
+    background: #0a0d14;
+    color: var(--tf-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+[data-tf-theme],
+[data-tf-theme="dark"] {
+  --tf-ink-rgb: 241, 245, 249;
+  --tf-ink: #F1F5F9;
+  --tf-surf-rgb: 255, 255, 255;
+  --tf-shadow-rgb: 0, 0, 0;
+  --tf-accent-ink: #7dd3fc;
+  --tf-accent2-ink: #a8e5da;
+  --tf-danger: #f0a9a6;
+  --tf-page: #0a0d14;
+  --tf-card-solid: #0a0e17;
+  --tf-scr1: #0b1120;
+  --tf-scr2: #080b12;
+  --tf-scr3: #05070b;
+  --tf-sky1: #101a2e;
+  --tf-sky2: #0b1220;
+  --tf-sky3: #070a11;
+  --tf-sheet1: #131c2e;
+  --tf-sheet2: #0a0e18;
+  --tf-foc1: #080d18;
+  --tf-foc2: #04060b;
+  --tf-glass: rgba(14, 20, 33, 0.84);
+  --tf-glass-strong: rgba(16, 24, 38, 0.94);
+  --tf-scrim: rgba(4, 7, 14, 0.66);
+  --tf-star: #ffffff;
+  --tf-noise: 0.5;
+  --tf-b1: rgba(56, 189, 248, 0.34);
+  --tf-b2: rgba(129, 140, 248, 0.30);
+  --tf-b3: rgba(52, 211, 153, 0.24);
+  --tf-b4: rgba(244, 166, 216, 0.18);
+}
+
+[data-tf-theme="light"] {
+  --tf-ink-rgb: 28, 36, 54;
+  --tf-ink: #1C2436;
+  --tf-surf-rgb: 32, 52, 88;
+  --tf-shadow-rgb: 130, 148, 178;
+  --tf-accent-ink: #0e7490;
+  --tf-accent2-ink: #0f766e;
+  --tf-danger: #b4534f;
+  --tf-page: #eef1f8;
+  --tf-card-solid: #ffffff;
+  --tf-scr1: #fbfcff;
+  --tf-scr2: #f4f7fd;
+  --tf-scr3: #eef2fa;
+  --tf-sky1: #dce9fb;
+  --tf-sky2: #e9f1fd;
+  --tf-sky3: #f5f9ff;
+  --tf-sheet1: #ffffff;
+  --tf-sheet2: #f3f7fd;
+  --tf-foc1: #eaf2fb;
+  --tf-foc2: #f8fbff;
+  --tf-glass: rgba(255, 255, 255, 0.82);
+  --tf-glass-strong: rgba(255, 255, 255, 0.95);
+  --tf-scrim: rgba(28, 40, 64, 0.32);
+  --tf-star: rgba(120, 150, 200, 0.35);
+  --tf-noise: 0.16;
+  --tf-b1: rgba(125, 211, 252, 0.50);
+  --tf-b2: rgba(165, 180, 252, 0.44);
+  --tf-b3: rgba(134, 239, 197, 0.38);
+  --tf-b4: rgba(249, 196, 226, 0.34);
+}
+
+@keyframes tf-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.09);
+    opacity: 0.85;
+  }
+}
+
+@keyframes tf-sway {
+  0%, 100% {
+    transform: rotate(-1.1deg);
+  }
+  50% {
+    transform: rotate(1.1deg);
+  }
+}
+
+@keyframes tf-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tf-sheet {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes tf-pulse {
+  0%, 100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes tf-float-a {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(6%, -7%, 0) scale(1.12);
+  }
+  66% {
+    transform: translate3d(-5%, 5%, 0) scale(0.94);
+  }
+}
+
+@keyframes tf-float-b {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  40% {
+    transform: translate3d(-8%, 6%, 0) scale(0.92);
+  }
+  70% {
+    transform: translate3d(5%, -8%, 0) scale(1.14);
+  }
+}
+
+@keyframes tf-orb-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.tf-sway {
+  transform-origin: 50% 100%;
+  animation: tf-sway 4.2s ease-in-out infinite;
+}
+
+.tf-breathe {
+  animation: tf-breathe 6s ease-in-out infinite;
+}
+
+.tf-rise {
+  animation: tf-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tf-sheet {
+  animation: tf-sheet 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tf-pulse {
+  animation: tf-pulse 2.6s ease-in-out infinite;
+}
+
+.tf-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  will-change: transform;
+}
+
+.tf-blob-a {
+  animation: tf-float-a 26s ease-in-out infinite;
+}
+
+.tf-blob-b {
+  animation: tf-float-b 34s ease-in-out infinite;
+}
+
+.tf-orb-spin {
+  animation: tf-orb-spin 48s linear infinite;
+}
+
+.tf-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.tf-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+input.tf-input {
+  outline: none;
+}
+
+input.tf-input::placeholder {
+  color: rgba(var(--tf-ink-rgb), 0.38);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tf-sway,
+  .tf-breathe,
+  .tf-pulse,
+  .tf-blob-a,
+  .tf-blob-b,
+  .tf-orb-spin {
+    animation: none;
+  }
+}

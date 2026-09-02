@@ -1,0 +1,126 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account details, settings, and questionnaire answers",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "onboardingComplete": { "type": "boolean" },
+        "intentions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "targetSleepHours": { "type": "number" },
+        "targetDeepWorkHours": { "type": "number" },
+        "primaryFocus": { "type": "string" },
+        "settings": {
+          "type": "object",
+          "properties": {
+            "soundEnabled": { "type": "boolean" },
+            "hapticsEnabled": { "type": "boolean" },
+            "defaultFocusMinutes": { "type": "number" },
+            "timeZone": { "type": "string" },
+            "hourFormat": { "type": "number" }
+          }
+        }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "UserTimeEntry": {
+      "title": "UserTimeEntry",
+      "description": "Individual 24-hour time block logged or planned by a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "activityId": { "type": "string" },
+        "activityName": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "categoryKind": { "type": "string" },
+        "categoryColor": { "type": "string" },
+        "emoji": { "type": "string" },
+        "startedAtMs": { "type": "number" },
+        "endedAtMs": { "type": "number" },
+        "durationSec": { "type": "number" },
+        "localDate": { "type": "string" },
+        "note": { "type": "string" },
+        "notes": { "type": "array" },
+        "valueRating": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "activityName", "startedAtMs", "endedAtMs", "durationSec", "localDate"]
+    },
+    "UserCategory": {
+      "title": "UserCategory",
+      "description": "User specific or custom life categories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "emoji": { "type": "string" },
+        "color": { "type": "string" },
+        "kind": { "type": "string" },
+        "description": { "type": "string" },
+        "isCustom": { "type": "boolean" }
+      },
+      "required": ["id", "userId", "name", "emoji", "color", "kind"]
+    },
+    "UserActivity": {
+      "title": "UserActivity",
+      "description": "User specific activities under categories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "name": { "type": "string" },
+        "isFavorite": { "type": "boolean" },
+        "isArchived": { "type": "boolean" }
+      },
+      "required": ["id", "userId", "categoryId", "name"]
+    },
+    "UserReflection": {
+      "title": "UserReflection",
+      "description": "Daily mindful reflection answers",
+      "type": "object",
+      "properties": {
+        "dateKey": { "type": "string" },
+        "userId": { "type": "string" },
+        "question": { "type": "string" },
+        "answer": { "type": "string" },
+        "closedAtMs": { "type": "number" },
+        "moodRating": { "type": "number" }
+      },
+      "required": ["dateKey", "userId", "question", "answer", "closedAtMs"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user account profile and settings"
+    },
+    "/users/{userId}/entries/{entryId}": {
+      "schema": "UserTimeEntry",
+      "description": "Time entries isolated for this user"
+    },
+    "/users/{userId}/categories/{categoryId}": {
+      "schema": "UserCategory",
+      "description": "Custom categories isolated for this user"
+    },
+    "/users/{userId}/activities/{activityId}": {
+      "schema": "UserActivity",
+      "description": "Activities isolated for this user"
+    },
+    "/users/{userId}/reflections/{dateKey}": {
+      "schema": "UserReflection",
+      "description": "Daily reflections isolated for this user"
+    }
+  }
+}
