@@ -96,7 +96,7 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
 
   return (
     <div
-      className="tf-focus-overlay fixed top-0 bottom-0 left-1/2 z-[90] flex w-full max-w-md -translate-x-1/2 flex-col items-center select-none tf-rise tf-scroll"
+      className="tf-focus-overlay fixed top-0 bottom-0 left-1/2 z-[90] flex w-full max-w-[402px] -translate-x-1/2 flex-col items-center select-none tf-rise tf-scroll"
       style={{
         background: 'radial-gradient(600px 520px at 50% 34%, rgba(56,189,248,.2), transparent 66%), linear-gradient(180deg, var(--tf-foc1), var(--tf-foc2))',
         color: 'var(--tf-ink)',

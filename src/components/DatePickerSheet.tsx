@@ -72,7 +72,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm select-none"
+      className="fixed inset-0 z-[80] flex items-end justify-center bg-black/60 backdrop-blur-sm select-none"
       onClick={onClose}
     >
       <div

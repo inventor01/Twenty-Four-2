@@ -54,7 +54,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ onClose, onSuccess }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm select-none">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm select-none">
       <div
         className="w-full max-w-sm rounded-[32px] p-6 flex flex-col gap-4 shadow-2xl relative overflow-hidden"
         style={{

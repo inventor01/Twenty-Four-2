@@ -99,7 +99,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm select-none">
+    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/60 backdrop-blur-sm select-none">
       <div
         className="w-full max-w-[440px] rounded-t-3xl p-5 flex flex-col gap-4 tf-sheet max-h-[90vh] overflow-y-auto tf-scroll shadow-2xl"
         style={{

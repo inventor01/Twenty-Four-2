@@ -354,6 +354,28 @@ function AppContent() {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
+  // Lock background scroll while any overlay is open (prevents scroll bleed behind sheets)
+  const anyOverlayOpen =
+    isFocusOpen ||
+    isLogSheetOpen ||
+    isDatePickerOpen ||
+    isAuthModalOpen ||
+    isOnboardingOpen ||
+    editingCategory !== undefined ||
+    noteTargetEntry !== null;
+
+  useEffect(() => {
+    if (!anyOverlayOpen) return;
+    const { overflow, paddingRight } = document.body.style;
+    const gap = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    if (gap > 0) document.body.style.paddingRight = `${gap}px`;
+    return () => {
+      document.body.style.overflow = overflow;
+      document.body.style.paddingRight = paddingRight;
+    };
+  }, [anyOverlayOpen]);
+
   // Wordmark ring — 19x19 conic gradient of today's blocks, masked to a 5px band
   const wordmarkRingStyle = useMemo((): React.CSSProperties => {
     const mask =
@@ -397,10 +419,12 @@ function AppContent() {
 
   return (
     <div className="w-full min-h-screen bg-[var(--tf-bg)] text-[var(--tf-ink)] flex flex-col items-center justify-start transition-colors duration-300 antialiased font-sans">
-      {/* Mobile Shell Wrapper — 402px frame, spec background stack */}
+      {/* Fixed, clipped background layer — does not add scroll height */}
       <div
-        className="w-full max-w-[402px] min-h-screen relative flex flex-col overflow-x-hidden"
+        aria-hidden
+        className="fixed inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-[402px] overflow-hidden pointer-events-none"
         style={{
+          zIndex: 0,
           background: [
             'radial-gradient(520px 340px at 50% -6%, rgba(56,189,248,.16), transparent 68%)',
             'radial-gradient(420px 380px at 96% 44%, rgba(129,140,248,.13), transparent 66%)',
@@ -408,7 +432,6 @@ function AppContent() {
           ].join(','),
         }}
       >
-        {/* Four floating gradient blobs */}
         <div
           className="tf-blob tf-blob-a"
           style={{
@@ -455,20 +478,19 @@ function AppContent() {
             animationDuration: '37s',
           }}
         />
-
-        {/* Noise overlay */}
         <div
-          aria-hidden
           style={{
             position: 'absolute',
             inset: 0,
             opacity: 'var(--tf-noise)' as unknown as number,
-            pointerEvents: 'none',
             backgroundImage:
               "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.35'/></svg>\")",
           }}
         />
+      </div>
 
+      {/* Content column */}
+      <div className="relative z-10 w-full max-w-[402px] min-h-screen flex flex-col overflow-x-hidden">
         {/* Wordmark — non-sticky, centred, on every screen */}
         <div
           className="relative flex items-center justify-center cursor-pointer select-none"
@@ -500,7 +522,7 @@ function AppContent() {
         {timerState && !isFocusOpen && (
           <div
             onClick={() => setIsFocusOpen(true)}
-            className="tf-running-timer sticky top-[58px] z-30 mx-4 my-2 p-3 rounded-2xl flex items-center justify-between shadow-lg cursor-pointer"
+            className="tf-running-timer sticky top-2 z-30 mx-5 my-2 p-3 rounded-2xl flex items-center justify-between shadow-lg cursor-pointer"
             role="button"
             tabIndex={0}
             onKeyDown={(event) => {
@@ -662,11 +684,10 @@ function AppContent() {
 
         {/* Tab bar — spec grid 1fr 1fr 62px 1fr 1fr */}
         <div
-          className="absolute"
+          className="fixed left-1/2 -translate-x-1/2"
           style={{
-            left: 12,
-            right: 12,
-            bottom: 20,
+            width: 'min(378px, calc(100vw - 24px))',
+            bottom: 'max(20px, env(safe-area-inset-bottom, 0px))',
             zIndex: 60,
             height: 62,
             borderRadius: 23,
@@ -818,7 +839,7 @@ function AppContent() {
 
         {/* Toast notification pill */}
         {toastMessage && (
-          <div className="absolute top-16 left-6 right-6 z-50 py-2 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-center text-xs text-[var(--tf-ink)] shadow-lg tf-rise">
+          <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[min(354px,calc(100vw-48px))] z-[130] py-2 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-center text-xs text-[var(--tf-ink)] shadow-lg tf-rise">
             {toastMessage}
           </div>
         )}

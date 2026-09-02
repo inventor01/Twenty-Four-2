@@ -65,7 +65,7 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({ onComplete }) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md select-none">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md select-none">
       <div
         className="w-full max-w-md rounded-[32px] p-6 sm:p-7 flex flex-col gap-5 shadow-2xl relative overflow-hidden"
         style={{
