@@ -152,9 +152,10 @@ export const InsightsScreen: React.FC<InsightsScreenProps> = ({
           style={{
             background: 'radial-gradient(120% 120% at 50% 10%, #102636 0%, #0c1c28 45%, #08131d 100%)',
             borderColor: 'rgba(56, 189, 248, 0.20)',
+            color: '#FFFFFF',
           }}
         >
-          <span className="text-3xl opacity-80">◫</span>
+          <span className="text-3xl opacity-80" style={{ color: '#FFFFFF' }}>◫</span>
           <h4
             style={{
               font: '700 18px Archivo, sans-serif',

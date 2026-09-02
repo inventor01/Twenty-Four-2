@@ -10,7 +10,7 @@
   body {
     margin: 0;
     font-family: var(--font-archivo);
-    background: #eef1f8;
+    background: var(--tf-page, #eef1f8);
     color: var(--tf-ink);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

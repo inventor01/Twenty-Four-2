@@ -131,10 +131,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
                 {profile?.displayName?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || 'P'}
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-sm font-bold text-[var(--tf-ink)] truncate">
+                <span className="text-sm font-bold text-white truncate">
                   {profile?.displayName || 'Practitioner'}
                 </span>
-                <span className="text-xs font-mono text-[rgba(var(--tf-ink-rgb),0.5)] truncate">{user.email}</span>
+                <span className="text-xs font-mono text-white/50 truncate">{user.email}</span>
                 {profile?.primaryFocus && (
                   <span className="text-[11px] text-[#2DD4BF] mt-0.5">
                     Focus: {profile.primaryFocus}
@@ -146,7 +146,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
             <div className="grid grid-cols-2 gap-2 mt-1">
               <button
                 onClick={onOpenOnboarding}
-                className="py-2 px-3 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.15)] border border-[rgba(var(--tf-surf-rgb),0.15)] text-xs font-semibold text-[var(--tf-ink)] cursor-pointer text-center"
+                className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-semibold text-white cursor-pointer text-center"
               >
                 Retake Questionnaire
               </button>
@@ -160,12 +160,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           </div>
         ) : (
           <div className="flex flex-col gap-2.5">
-            <p className="text-xs text-[rgba(var(--tf-ink-rgb),0.7)] leading-relaxed">
+            <p className="text-xs text-white/70 leading-relaxed">
               Create your profile or sign in to synchronize your 24-hour balance ledger and daily reflections across devices with private data isolation.
             </p>
             <button
               onClick={onOpenAuth}
-              className="w-full py-3 rounded-xl font-bold text-xs bg-[#38BDF8] text-[var(--tf-on-accent)] shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl font-bold text-xs bg-[#38BDF8] text-[#05070b] shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               Sign In / Create Profile ✦
             </button>

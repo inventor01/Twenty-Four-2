@@ -17,6 +17,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Apply the saved theme before first paint so there is no flash of the wrong theme.
+      (function () {
+        try {
+          var t = localStorage.getItem('tf-theme');
+          if (t !== 'dark' && t !== 'light') t = 'light';
+          var r = document.documentElement;
+          r.setAttribute('data-tf-theme', t);
+          r.classList.remove('dark', 'light');
+          r.classList.add(t);
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', t === 'light' ? '#eef1f8' : '#0a0d14');
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="min-h-screen">
     <div id="root"></div>
