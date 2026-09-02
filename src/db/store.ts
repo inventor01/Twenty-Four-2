@@ -774,6 +774,18 @@ export function deleteEntry(id: string): void {
   setItem(STORAGE_KEYS.ENTRIES, all);
 }
 
+/** Delete a group of ledger entries in one atomic store update. */
+export function deleteEntries(ids: string[]): number {
+  const idSet = new Set(ids);
+  if (idSet.size === 0) return 0;
+
+  const all = getAllEntries();
+  const remaining = all.filter((entry) => !idSet.has(entry.id));
+  const deletedCount = all.length - remaining.length;
+  if (deletedCount > 0) setItem(STORAGE_KEYS.ENTRIES, remaining);
+  return deletedCount;
+}
+
 // Note management on past or existing TimeEntry
 export function addNoteToEntry(entryId: string, text: string): EntryNote | null {
   const trimmed = text.trim().slice(0, 1000);

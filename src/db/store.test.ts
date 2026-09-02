@@ -11,6 +11,7 @@ import {
   updateActivity,
   getAllEntries,
   addManualEntry,
+  deleteEntries,
   addNoteToEntry,
   updateNote,
   deleteNote,
@@ -227,6 +228,23 @@ describe('Store v4 Persistence API', () => {
       expect(envelope.version).toBe(4);
       expect(envelope.categories.length).toBeGreaterThan(0);
       expect(envelope.settings.timeZone).toBeDefined();
+    });
+  });
+
+  describe('5. Bulk ledger operations', () => {
+    it('deletes only the selected entries in one operation', () => {
+      const activity = getAllActivities()[0];
+      const first = addManualEntry(activity.id, 1_000_000, 1_060_000)!;
+      const second = addManualEntry(activity.id, 2_000_000, 2_060_000)!;
+      const keep = addManualEntry(activity.id, 3_000_000, 3_060_000)!;
+      const countBefore = getAllEntries().length;
+
+      expect(deleteEntries([first.id, second.id])).toBe(2);
+      const remainingIds = getAllEntries().map((entry) => entry.id);
+      expect(remainingIds).not.toContain(first.id);
+      expect(remainingIds).not.toContain(second.id);
+      expect(remainingIds).toContain(keep.id);
+      expect(remainingIds).toHaveLength(countBefore - 2);
     });
   });
 });

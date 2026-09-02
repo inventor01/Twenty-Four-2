@@ -1,0 +1,11 @@
+{
+  "name": "Twentyfour",
+  "short_name": "Twentyfour",
+  "description": "A calm time ledger for spending more of life on what matters.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef4ef",
+  "theme_color": "#7b9f86",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "lifestyle", "health"]
+}

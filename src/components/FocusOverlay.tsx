@@ -14,6 +14,7 @@ interface FocusOverlayProps {
   onFinish: (notes: EntryNote[]) => void;
   onDiscard: () => void;
   onClose: () => void;
+  onNotesChange?: (notes: EntryNote[]) => void;
 }
 
 export const FocusOverlay: React.FC<FocusOverlayProps> = ({
@@ -26,6 +27,7 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
   onFinish,
   onDiscard,
   onClose,
+  onNotesChange,
 }) => {
   const [elapsedSec, setElapsedSec] = useState<number>(0);
   const [noteDraft, setNoteDraft] = useState<string>('');
@@ -63,9 +65,9 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
     return pointsForFocus(mins);
   }, [mins]);
 
-  // Target 25 minutes pomodoro / target
-  const targetSec = 25 * 60;
+  const targetSec = timer.targetIntervalSec || 25 * 60;
   const focusPct = Math.min(100, Math.round((elapsedSec / targetSec) * 100));
+  const targetMins = Math.round(targetSec / 60);
 
   const handleAddNote = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -75,7 +77,11 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
       text: noteDraft.trim(),
       createdAtMs: Date.now(),
     };
-    setSessionNotes((prev) => [...prev, newNote]);
+    setSessionNotes((prev) => {
+      const next = [...prev, newNote];
+      onNotesChange?.(next);
+      return next;
+    });
     setNoteDraft('');
   };
 
@@ -90,10 +96,9 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
 
   return (
     <div
-      className="absolute inset-0 z-[90] flex flex-col items-center justify-between select-none tf-rise overflow-hidden"
+      className="tf-focus-overlay fixed top-0 bottom-0 left-1/2 z-[90] flex w-full max-w-md -translate-x-1/2 flex-col items-center select-none tf-rise tf-scroll"
       style={{
         background: 'radial-gradient(600px 520px at 50% 34%, rgba(56,189,248,.2), transparent 66%), linear-gradient(180deg, var(--tf-foc1), var(--tf-foc2))',
-        padding: '70px 24px 34px',
         color: 'var(--tf-ink)',
       }}
     >
@@ -127,7 +132,7 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
       </div>
 
       {/* Center 290px Breathing Focus Ring & Clock */}
-      <div className="relative w-[290px] h-[290px] my-auto flex items-center justify-center flex-shrink-0">
+      <div className="tf-focus-ring relative flex items-center justify-center flex-shrink-0">
         {/* Pulsing ambient radial glow */}
         <div
           className="tf-breathe absolute inset-0 rounded-full pointer-events-none"
@@ -157,6 +162,7 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
         {/* Center Clock and Label Content */}
         <div className="relative flex flex-col items-center gap-1.5 text-center">
           <span
+            className="tf-focus-clock"
             style={{
               font: "300 62px/1 'JetBrains Mono', monospace",
               letterSpacing: '-0.04em',
@@ -184,14 +190,14 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
               color: 'rgba(var(--tf-ink-rgb), 0.45)',
             }}
           >
-            target 25:00 · {focusPct}%
+            target {targetMins}:00 · {focusPct}%
           </span>
         </div>
       </div>
 
       {/* Italic poetic line below the ring */}
       <p
-        className="max-w-[280px] text-center italic"
+        className="tf-focus-poem max-w-[280px] text-center italic"
         style={{
           font: "italic 400 19px/1.35 'Instrument Serif', serif",
           color: 'rgba(var(--tf-ink-rgb), 0.62)',
@@ -204,7 +210,7 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
       </p>
 
       {/* Note this moment section */}
-      <div className="w-full max-w-[340px] flex flex-col gap-2 mb-4">
+      <div className="tf-focus-notes w-full max-w-[340px] flex flex-col gap-2 mb-2">
         <form onSubmit={handleAddNote} className="flex items-center gap-2">
           <input
             type="text"

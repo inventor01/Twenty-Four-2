@@ -17,6 +17,8 @@ import {
   getAllEntries,
   addManualEntry,
   updateEntry,
+  deleteEntries,
+  updateStoredTimer,
   getReflections,
   getStoredSettings,
   updateStoredSettings,
@@ -58,7 +60,7 @@ import { AuthModal } from './components/AuthModal';
 import { OnboardingModal } from './components/OnboardingModal';
 import { soundEngine } from './lib/sound';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { syncFirestoreForUser, persistEntryToCloud } from './lib/cloudSync';
+import { syncFirestoreForUser, persistEntryToCloud, removeEntryFromCloud } from './lib/cloudSync';
 
 type NavTab = 'today' | 'insights' | 'plant' | 'settings';
 
@@ -158,7 +160,12 @@ function AppContent() {
 
   // Timer actions
   const handleStartTimer = (activity: Activity) => {
-    startTimerFor(activity.id, 'continuous');
+    const result = startTimerFor(activity.id, 'continuous', settings.defaultFocusMinutes * 60);
+    if (result.conflict) {
+      setIsFocusOpen(true);
+      showToast('A focus session is already running');
+      return;
+    }
     soundEngine.playChime();
     setIsFocusOpen(true);
     showToast(`Focus session started: ${activity.name}`);
@@ -239,6 +246,18 @@ function AppContent() {
     }
     reloadData();
     showToast('Saved note to entry');
+  };
+
+  const handleUpdateLedgerEntry = (entry: TimeEntry) => {
+    updateEntry(entry);
+    if (user) void persistEntryToCloud(user.uid, entry);
+    showToast('Entry updated');
+  };
+
+  const handleDeleteLedgerEntries = (ids: string[]) => {
+    const deletedCount = deleteEntries(ids);
+    if (user) ids.forEach((id) => void removeEntryFromCloud(user.uid, id));
+    if (deletedCount > 0) showToast(`${deletedCount} ${deletedCount === 1 ? 'entry' : 'entries'} deleted`);
   };
 
   // Category editor actions
@@ -355,10 +374,16 @@ function AppContent() {
         </div>
 
         {/* Running Timer Bar (Sticky if active) */}
-        {timerState && activeTab !== 'today' && (
+        {timerState && !isFocusOpen && (
           <div
             onClick={() => setIsFocusOpen(true)}
-            className="sticky top-[58px] z-30 mx-4 my-2 p-3 rounded-2xl bg-[#38BDF8]/15 border border-[#38BDF8]/30 flex items-center justify-between shadow-lg cursor-pointer backdrop-blur-md"
+            className="tf-running-timer sticky top-[58px] z-30 mx-4 my-2 p-3 rounded-2xl flex items-center justify-between shadow-lg cursor-pointer"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') setIsFocusOpen(true);
+            }}
+            aria-label="Open active focus timer"
           >
             <div className="flex items-center gap-2 min-w-0">
               <span className="w-2.5 h-2.5 rounded-full bg-[#38BDF8] animate-ping" />
@@ -434,6 +459,7 @@ function AppContent() {
               <TwoTapFavorites
                 activities={activities}
                 categories={categories}
+                todayEntries={todayEntries}
                 onSelectActivity={(act) => {
                   setLogSheetInitialActivity(act);
                   setIsLogSheetOpen(true);
@@ -454,7 +480,17 @@ function AppContent() {
               <LedgerSection
                 entries={todayEntries}
                 categories={categories}
+                activities={activities}
                 selectedDateKey={selectedDateKey}
+                hourFormat={settings.hourFormat}
+                timeZone={timeZone}
+                onAddNote={(entry) => setNoteTargetEntry(entry)}
+                onOpenLogModal={() => {
+                  setLogSheetInitialActivity(null);
+                  setIsLogSheetOpen(true);
+                }}
+                onUpdateEntry={handleUpdateLedgerEntry}
+                onDeleteEntries={handleDeleteLedgerEntries}
               />
             </div>
           )}
@@ -503,7 +539,7 @@ function AppContent() {
 
         {/* Sticky Floating Bottom Navigation Bar */}
         <div
-          className="absolute bottom-4 left-4 right-4 z-40 flex items-center justify-between px-4 py-2 rounded-[23px] backdrop-blur-xl border border-white/10 shadow-2xl"
+          className="fixed bottom-4 left-1/2 z-40 flex w-[calc(100%_-_2rem)] max-w-[416px] -translate-x-1/2 items-center justify-between px-4 py-2 rounded-[23px] backdrop-blur-xl border border-white/10 shadow-2xl"
           style={{
             background: 'var(--tf-glass)',
           }}
@@ -589,6 +625,7 @@ function AppContent() {
             onFinish={handleFinishTimer}
             onDiscard={handleDiscardTimer}
             onClose={() => setIsFocusOpen(false)}
+            onNotesChange={(notes) => updateStoredTimer({ notes })}
           />
         )}
 
