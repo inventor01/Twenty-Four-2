@@ -64,6 +64,28 @@ import { syncFirestoreForUser, persistEntryToCloud, removeEntryFromCloud } from 
 
 type NavTab = 'today' | 'insights' | 'plant' | 'settings';
 
+const NAV_TABS: { id: NavTab; glyph: string; label: string }[] = [
+  { id: 'today', glyph: '◔', label: 'Today' },
+  { id: 'insights', glyph: '◫', label: 'Insights' },
+  { id: 'plant', glyph: '❧', label: 'Plant' },
+  { id: 'settings', glyph: '⚙', label: 'Settings' },
+];
+
+const tabStyle = (on: boolean): React.CSSProperties => ({
+  height: 54,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 5,
+  borderRadius: 18,
+  cursor: 'pointer',
+  border: on ? '1px solid rgba(56,189,248,.45)' : '1px solid transparent',
+  background: on ? 'linear-gradient(135deg,rgba(56,189,248,.22),rgba(37,99,235,.12))' : 'transparent',
+  color: on ? 'var(--tf-accent-ink)' : 'rgba(var(--tf-ink-rgb),.55)',
+  fontFamily: 'Archivo,sans-serif',
+});
+
 function AppContent() {
   const { user, profile, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<NavTab>('today');
@@ -332,45 +354,146 @@ function AppContent() {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   };
 
+  // Wordmark ring — 19x19 conic gradient of today's blocks, masked to a 5px band
+  const wordmarkRingStyle = useMemo((): React.CSSProperties => {
+    const mask =
+      'radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px))';
+
+    const totals = new Map<string, number>();
+    todayEntries.forEach((e) => {
+      const color = e.categoryColor || '#818CF8';
+      totals.set(color, (totals.get(color) || 0) + Math.max(0, e.durationSec));
+    });
+
+    const totalSec = Array.from(totals.values()).reduce((a, b) => a + b, 0);
+
+    let background: string;
+    if (totalSec <= 0) {
+      background = 'conic-gradient(from -90deg, rgba(var(--tf-surf-rgb),.16) 0 100%)';
+    } else {
+      const stops: string[] = [];
+      let deg = 0;
+      Array.from(totals.entries())
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([color, sec]) => {
+          const end = deg + (sec / totalSec) * 360;
+          stops.push(`${color} ${deg.toFixed(1)}deg ${end.toFixed(1)}deg`);
+          deg = end;
+        });
+      background = `conic-gradient(from -90deg, ${stops.join(', ')})`;
+    }
+
+    return {
+      width: 19,
+      height: 19,
+      borderRadius: '50%',
+      flex: 'none',
+      margin: '0 1px',
+      background,
+      mask,
+      WebkitMask: mask,
+    };
+  }, [todayEntries]);
+
   return (
     <div className="w-full min-h-screen bg-[var(--tf-bg)] text-[var(--tf-ink)] flex flex-col items-center justify-start transition-colors duration-300 antialiased font-sans">
-      {/* Mobile Shell Wrapper */}
-      <div className="w-full max-w-md min-h-screen relative flex flex-col justify-between pb-24 shadow-2xl bg-[var(--tf-bg)] overflow-x-hidden">
-        {/* Top Floating App Bar */}
-        <div className="sticky top-0 z-40 relative flex items-center justify-center px-5 pt-4 pb-3 bg-[var(--tf-bg)]/85 backdrop-blur-xl border-b border-white/5 select-none min-h-[58px]">
-          {/* Brand Wordmark (Centered) */}
-          <div className="flex items-center gap-1 cursor-pointer" onClick={() => setActiveTab('today')}>
-            <span
-              style={{
-                font: '700 20px/1 Archivo, sans-serif',
-                letterSpacing: '-0.04em',
-                color: 'var(--tf-ink)',
-              }}
-            >
-              twenty<span style={{ color: 'var(--tf-accent-ink)' }}>four</span>
-            </span>
-          </div>
+      {/* Mobile Shell Wrapper — 402px frame, spec background stack */}
+      <div
+        className="w-full max-w-[402px] min-h-screen relative flex flex-col overflow-x-hidden"
+        style={{
+          background: [
+            'radial-gradient(520px 340px at 50% -6%, rgba(56,189,248,.16), transparent 68%)',
+            'radial-gradient(420px 380px at 96% 44%, rgba(129,140,248,.13), transparent 66%)',
+            'linear-gradient(180deg,var(--tf-scr1) 0%,var(--tf-scr2) 52%,var(--tf-scr3) 100%)',
+          ].join(','),
+        }}
+      >
+        {/* Four floating gradient blobs */}
+        <div
+          className="tf-blob tf-blob-a"
+          style={{
+            top: -90,
+            left: -70,
+            width: 320,
+            height: 320,
+            background: 'radial-gradient(circle,var(--tf-b1),transparent 68%)',
+            filter: 'blur(42px)',
+          }}
+        />
+        <div
+          className="tf-blob tf-blob-b"
+          style={{
+            top: '36%',
+            right: -110,
+            width: 300,
+            height: 300,
+            background: 'radial-gradient(circle,var(--tf-b2),transparent 68%)',
+            filter: 'blur(42px)',
+          }}
+        />
+        <div
+          className="tf-blob tf-blob-a"
+          style={{
+            bottom: -110,
+            left: -60,
+            width: 340,
+            height: 340,
+            background: 'radial-gradient(circle,var(--tf-b3),transparent 70%)',
+            filter: 'blur(46px)',
+            animationDuration: '29s',
+          }}
+        />
+        <div
+          className="tf-blob tf-blob-b"
+          style={{
+            bottom: '16%',
+            right: -90,
+            width: 240,
+            height: 240,
+            background: 'radial-gradient(circle,var(--tf-b4),transparent 70%)',
+            filter: 'blur(40px)',
+            animationDuration: '37s',
+          }}
+        />
 
-          {/* User Account / Sign In Pill (Pinned to Right) */}
-          <div className="absolute right-4 flex items-center gap-2">
-            <button
-              onClick={() => {
-                if (user) {
-                  setActiveTab('settings');
-                } else {
-                  setIsAuthModalOpen(true);
-                }
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-all cursor-pointer select-none"
-            >
-              <div
-                className={`w-2 h-2 rounded-full ${user ? 'bg-[#2DD4BF] animate-pulse' : 'bg-white/40'}`}
-              />
-              <span className="text-xs font-medium text-[var(--tf-ink)] truncate max-w-[110px]">
-                {user ? profile?.displayName || 'My Profile' : 'Sign In'}
-              </span>
-            </button>
-          </div>
+        {/* Noise overlay */}
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            inset: 0,
+            opacity: 'var(--tf-noise)' as unknown as number,
+            pointerEvents: 'none',
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.35'/></svg>\")",
+          }}
+        />
+
+        {/* Wordmark — non-sticky, centred, on every screen */}
+        <div
+          className="relative flex items-center justify-center cursor-pointer select-none"
+          style={{ gap: 1, padding: '66px 20px 18px' }}
+          onClick={() => setActiveTab('today')}
+        >
+          <span
+            style={{
+              font: '700 21px/1 Archivo, sans-serif',
+              letterSpacing: '-.045em',
+              color: 'var(--tf-ink)',
+            }}
+          >
+            twentyf
+          </span>
+          <span style={wordmarkRingStyle} />
+          <span
+            style={{
+              font: '700 21px/1 Archivo, sans-serif',
+              letterSpacing: '-.045em',
+              color: 'var(--tf-ink)',
+            }}
+          >
+            ur
+          </span>
         </div>
 
         {/* Running Timer Bar (Sticky if active) */}
@@ -398,7 +521,7 @@ function AppContent() {
         )}
 
         {/* Main View Router */}
-        <div className="flex-1 px-4 pt-2">
+        <div className="tf-scroll relative flex-1" style={{ padding: '0 20px 132px' }}>
           {activeTab === 'today' && (
             <div className="flex flex-col gap-5">
               {/* Date Selector Header Bar */}
@@ -537,80 +660,70 @@ function AppContent() {
           )}
         </div>
 
-        {/* Sticky Floating Bottom Navigation Bar */}
+        {/* Tab bar — spec grid 1fr 1fr 62px 1fr 1fr */}
         <div
-          className="fixed bottom-4 left-1/2 z-40 flex w-[calc(100%_-_2rem)] max-w-[416px] -translate-x-1/2 items-center justify-between px-4 py-2 rounded-[23px] backdrop-blur-xl border border-white/10 shadow-2xl"
+          className="absolute"
           style={{
+            left: 12,
+            right: 12,
+            bottom: 20,
+            zIndex: 60,
+            height: 62,
+            borderRadius: 23,
             background: 'var(--tf-glass)',
+            backdropFilter: 'blur(26px) saturate(150%)',
+            WebkitBackdropFilter: 'blur(26px) saturate(150%)',
+            border: '1px solid rgba(var(--tf-surf-rgb),.14)',
+            boxShadow:
+              '0 20px 44px -26px rgba(var(--tf-shadow-rgb),.95), inset 0 1px rgba(var(--tf-surf-rgb),.14)',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 62px 1fr 1fr',
+            alignItems: 'center',
+            gap: 2,
+            padding: '0 6px',
           }}
         >
-          {/* Today Tab (◔) */}
-          <button
-            onClick={() => setActiveTab('today')}
-            className={`flex flex-col items-center gap-0.5 transition-all cursor-pointer ${
-              activeTab === 'today'
-                ? 'text-[var(--tf-accent-ink)] font-bold scale-105'
-                : 'text-[var(--tf-ink)] opacity-50 hover:opacity-100'
-            }`}
-          >
-            <span className="text-lg leading-none">◔</span>
-            <span className="text-[9.5px] font-medium tracking-tight">Today</span>
-          </button>
+          {NAV_TABS.slice(0, 2).map((t) => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)} style={tabStyle(activeTab === t.id)}>
+              <span style={{ fontSize: 13, lineHeight: 1 }}>{t.glyph}</span>
+              <span style={{ font: '600 9.5px/1 Archivo, sans-serif' }}>{t.label}</span>
+            </button>
+          ))}
 
-          {/* Insights Tab (◫) */}
-          <button
-            onClick={() => setActiveTab('insights')}
-            className={`flex flex-col items-center gap-0.5 transition-all cursor-pointer ${
-              activeTab === 'insights'
-                ? 'text-[var(--tf-accent-ink)] font-bold scale-105'
-                : 'text-[var(--tf-ink)] opacity-50 hover:opacity-100'
-            }`}
-          >
-            <span className="text-lg leading-none">◫</span>
-            <span className="text-[9.5px] font-medium tracking-tight">Insights</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <button
+              onClick={() => {
+                setLogSheetInitialActivity(null);
+                setIsLogSheetOpen(true);
+              }}
+              title="Log block"
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: '50%',
+                border: '1px solid rgba(56,189,248,.6)',
+                background: 'linear-gradient(140deg,rgba(56,189,248,.55),rgba(37,99,235,.4))',
+                boxShadow:
+                  '0 14px 30px -12px rgba(56,189,248,.8), inset 0 1px 2px rgba(var(--tf-surf-rgb),.6)',
+                color: '#fff',
+                font: '300 26px/1 Archivo, sans-serif',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0 0 2px 0',
+              }}
+            >
+              ＋
+            </button>
+          </div>
 
-          {/* Center Elevated 52px Add Block Button (＋) */}
-          <button
-            onClick={() => {
-              setLogSheetInitialActivity(null);
-              setIsLogSheetOpen(true);
-            }}
-            className="w-[48px] h-[48px] -mt-5 rounded-full flex items-center justify-center font-bold text-2xl text-black transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xl"
-            style={{
-              background: 'linear-gradient(135deg, #7DD3FC 0%, #38BDF8 100%)',
-              boxShadow: '0 4px 18px rgba(56, 189, 248, 0.45)',
-            }}
-            title="Log block"
-          >
-            ＋
-          </button>
-
-          {/* Plant Tab (❧) */}
-          <button
-            onClick={() => setActiveTab('plant')}
-            className={`flex flex-col items-center gap-0.5 transition-all cursor-pointer ${
-              activeTab === 'plant'
-                ? 'text-emerald-400 font-bold scale-105'
-                : 'text-[var(--tf-ink)] opacity-50 hover:opacity-100'
-            }`}
-          >
-            <span className="text-lg leading-none">❧</span>
-            <span className="text-[9.5px] font-medium tracking-tight">Plant</span>
-          </button>
-
-          {/* Settings Tab (⚙) */}
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`flex flex-col items-center gap-0.5 transition-all cursor-pointer ${
-              activeTab === 'settings'
-                ? 'text-[var(--tf-accent-ink)] font-bold scale-105'
-                : 'text-[var(--tf-ink)] opacity-50 hover:opacity-100'
-            }`}
-          >
-            <span className="text-lg leading-none">⚙</span>
-            <span className="text-[9.5px] font-medium tracking-tight">Settings</span>
-          </button>
+          {NAV_TABS.slice(2).map((t) => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)} style={tabStyle(activeTab === t.id)}>
+              <span style={{ fontSize: 13, lineHeight: 1 }}>{t.glyph}</span>
+              <span style={{ font: '600 9.5px/1 Archivo, sans-serif' }}>{t.label}</span>
+            </button>
+          ))}
         </div>
 
         {/* Full-Screen Focus Mode Overlay */}

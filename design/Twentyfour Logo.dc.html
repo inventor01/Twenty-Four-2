@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0a0d14}
+a{color:#7FD3C2}a:hover{color:#a8e5da}
+@keyframes lg-spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes lg-float{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(4%,-6%,0) scale(1.1)}}
+.lg-spin{animation:lg-spin 42s linear infinite}
+.lg-float{animation:lg-float 28s ease-in-out infinite}
+.dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(255,255,255,.08);position:relative}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 22px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#e8eef7;color:#0a0d14;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 Archivo,sans-serif;color:#e8eef7}
+.dv-opts{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(255,255,255,.12);color:#e8eef7;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 Archivo,sans-serif;color:rgba(232,238,247,.55)}
+.dv-card{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.10)}
+.dv-opt:target .dv-oid{background:#7dd3fc;color:#06212e}
+.dv-next{margin:24px 0 0;font:12px/1.6 Archivo,sans-serif;color:rgba(232,238,247,.45)}
+.lg-dark{background:radial-gradient(420px 300px at 24% 0%,rgba(56,189,248,.18),transparent 66%),linear-gradient(160deg,#0b1120,#06080e)}
+.lg-light{background:radial-gradient(420px 300px at 24% 0%,rgba(125,211,252,.34),transparent 68%),linear-gradient(160deg,#fbfcff,#eef2fa)}
+</style></helmet>
+
+<section class="dv-turn" id="t1" style="background:#0a0d14;font-family:Archivo,system-ui,sans-serif;min-height:100vh">
+<div class="lg-float" style="position:absolute;top:-160px;left:8%;width:560px;height:560px;border-radius:50%;pointer-events:none;filter:blur(70px);background:radial-gradient(circle,rgba(56,189,248,.22),transparent 68%)"></div>
+<div class="lg-float" style="position:absolute;bottom:-200px;right:4%;width:520px;height:520px;border-radius:50%;pointer-events:none;filter:blur(70px);background:radial-gradient(circle,rgba(129,140,248,.20),transparent 68%);animation-duration:34s"></div>
+
+<div class="dv-thd" style="position:relative"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Twentyfour · text-based wordmarks</span></div>
+
+<div class="dv-opts" style="position:relative">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Tracked capitals — the ledger voice</div>
+<div class="dv-card lg-dark" style="width:520px;padding:60px 54px;display:flex;flex-direction:column;gap:16px">
+<span style="font:300 15px/1 Archivo,sans-serif;letter-spacing:.62em;text-transform:uppercase;color:rgba(241,245,249,.42)">twenty</span>
+<span style="font:600 54px/0.9 Archivo,sans-serif;letter-spacing:.10em;text-transform:uppercase;color:#F1F5F9">four</span>
+<span style="width:64px;height:2px;background:linear-gradient(90deg,#7dd3fc,rgba(125,211,252,0))"></span>
+</div>
+<div class="dv-card lg-light" style="width:520px;padding:38px 54px;display:flex;align-items:baseline;gap:12px">
+<span style="font:300 13px/1 Archivo,sans-serif;letter-spacing:.62em;text-transform:uppercase;color:rgba(28,36,54,.45)">twenty</span>
+<span style="font:600 30px/0.9 Archivo,sans-serif;letter-spacing:.10em;text-transform:uppercase;color:#1C2436">four</span>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>One word, tight — with the day ring as counter</div>
+<div class="dv-card lg-dark" style="width:520px;padding:60px 54px;display:flex;align-items:center;gap:2px">
+<span style="font:700 46px/1 Archivo,sans-serif;letter-spacing:-.045em;color:#F1F5F9">twentyf</span>
+<span class="lg-spin" style="width:38px;height:38px;border-radius:50%;flex:none;margin:0 1px;background:conic-gradient(from -90deg,#818CF8 0 28%,#38BDF8 28% 52%,#34D399 52% 68%,#F59E0B 68% 78%,rgba(255,255,255,.10) 78% 100%);mask:radial-gradient(farthest-side,transparent calc(100% - 8px),#000 calc(100% - 7px));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 8px),#000 calc(100% - 7px))"></span>
+<span style="font:700 46px/1 Archivo,sans-serif;letter-spacing:-.045em;color:#F1F5F9">ur</span>
+</div>
+<div class="dv-card lg-light" style="width:520px;padding:38px 54px;display:flex;align-items:center;gap:2px">
+<span style="font:700 30px/1 Archivo,sans-serif;letter-spacing:-.045em;color:#1C2436">twentyf</span>
+<span style="width:25px;height:25px;border-radius:50%;flex:none;margin:0 1px;background:conic-gradient(from -90deg,#818CF8 0 28%,#38BDF8 28% 52%,#34D399 52% 68%,#F59E0B 68% 78%,rgba(28,36,54,.12) 78% 100%);mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 5px));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 calc(100% - 5px))"></span>
+<span style="font:700 30px/1 Archivo,sans-serif;letter-spacing:-.045em;color:#1C2436">ur</span>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Serif, quiet — the reflective voice</div>
+<div class="dv-card lg-dark" style="width:520px;padding:64px 54px;display:flex;flex-direction:column;gap:10px">
+<span style="font:400 60px/0.92 'Instrument Serif',serif;letter-spacing:-.015em;color:#F1F5F9">Twentyfour</span>
+<span style="font:400 12px/1 'JetBrains Mono',monospace;letter-spacing:.3em;text-transform:uppercase;color:rgba(241,245,249,.4)">a private time ledger</span>
+</div>
+<div class="dv-card lg-light" style="width:520px;padding:38px 54px;display:flex;flex-direction:column;gap:8px">
+<span style="font:italic 400 34px/0.95 'Instrument Serif',serif;color:#1C2436">Twentyfour</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;letter-spacing:.3em;text-transform:uppercase;color:rgba(28,36,54,.45)">a private time ledger</span>
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Numeral lockup — 24 as the mark</div>
+<div class="dv-card lg-dark" style="width:520px;padding:52px 54px;display:flex;align-items:center;gap:22px">
+<span style="position:relative;width:88px;height:88px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:26px;background:linear-gradient(150deg,rgba(56,189,248,.34),rgba(129,140,248,.20));border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px rgba(255,255,255,.3)">
+<span style="font:800 40px/1 Archivo,sans-serif;letter-spacing:-.06em;color:#F1F5F9">24</span>
+</span>
+<span style="display:flex;flex-direction:column;gap:5px">
+<span style="font:700 30px/1 Archivo,sans-serif;letter-spacing:-.035em;color:#F1F5F9">Twentyfour</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:rgba(241,245,249,.42)">time, made visible</span>
+</span>
+</div>
+<div class="dv-card lg-light" style="width:520px;padding:30px 54px;display:flex;align-items:center;gap:16px">
+<span style="width:54px;height:54px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:17px;background:linear-gradient(150deg,#38BDF8,#818CF8);box-shadow:0 8px 18px -10px rgba(56,189,248,.9)">
+<span style="font:800 25px/1 Archivo,sans-serif;letter-spacing:-.06em;color:#fff">24</span>
+</span>
+<span style="font:700 24px/1 Archivo,sans-serif;letter-spacing:-.035em;color:#1C2436">Twentyfour</span>
+</div>
+</div>
+
+</div>
+
+<div style="position:relative;margin-top:34px;display:flex;flex-direction:column;gap:14px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(232,238,247,.42)">App icon &amp; small sizes</span>
+<div style="display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+<span style="width:112px;height:112px;border-radius:26px;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#0f1a2e,#070a11);border:1px solid rgba(255,255,255,.12)">
+<span style="font:800 46px/1 Archivo,sans-serif;letter-spacing:-.06em;color:#F1F5F9">24</span>
+</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(232,238,247,.4)">dark</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+<span style="width:112px;height:112px;border-radius:26px;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#38BDF8,#818CF8)">
+<span style="font:800 46px/1 Archivo,sans-serif;letter-spacing:-.06em;color:#fff">24</span>
+</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(232,238,247,.4)">gradient</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+<span style="width:112px;height:112px;border-radius:26px;display:flex;align-items:center;justify-content:center;background:#fbfcff">
+<span style="font:800 46px/1 Archivo,sans-serif;letter-spacing:-.06em;color:#1C2436">24</span>
+</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(232,238,247,.4)">light</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+<span style="width:112px;height:112px;border-radius:26px;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#0f1a2e,#070a11);border:1px solid rgba(255,255,255,.12)">
+<span class="lg-spin" style="width:56px;height:56px;border-radius:50%;background:conic-gradient(from -90deg,#818CF8 0 28%,#38BDF8 28% 52%,#34D399 52% 68%,#F59E0B 68% 78%,rgba(255,255,255,.10) 78% 100%);mask:radial-gradient(farthest-side,transparent calc(100% - 11px),#000 calc(100% - 10px));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 11px),#000 calc(100% - 10px))"></span>
+</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(232,238,247,.4)">day ring</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;padding-bottom:22px">
+<span style="font:600 20px/1 Archivo,sans-serif;letter-spacing:-.03em;color:#F1F5F9">Twentyfour</span>
+<span style="font:600 14px/1 Archivo,sans-serif;letter-spacing:-.02em;color:#F1F5F9">Twentyfour</span>
+<span style="font:600 11px/1 Archivo,sans-serif;letter-spacing:.01em;color:#F1F5F9">Twentyfour</span>
+<span style="font:400 9px/1 'JetBrains Mono',monospace;color:rgba(232,238,247,.4)">wordmark at 20 / 14 / 11 px</span>
+</div>
+</div>
+</div>
+
+<p class="dv-next">Try next: “put <a class="dv-oid" href="#1b">1b</a> in the app header” · “<a class="dv-oid" href="#1d">1d</a> but the mark is the ring, not 24” · “make <a class="dv-oid" href="#1a">1a</a> the primary and show it on a splash screen”</p>
+</section>
+</x-dc>
+</body>
+</html>

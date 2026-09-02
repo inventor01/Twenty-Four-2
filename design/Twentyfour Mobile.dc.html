@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0a0d14}
+[data-tf-theme]{
+--tf-ink-rgb:241,245,249;--tf-ink:#F1F5F9;--tf-surf-rgb:255,255,255;--tf-shadow-rgb:0,0,0;
+--tf-accent-ink:#7dd3fc;--tf-accent2-ink:#a8e5da;--tf-danger:#f0a9a6;
+--tf-page:#0a0d14;--tf-card-solid:#0a0e17;
+--tf-scr1:#0b1120;--tf-scr2:#080b12;--tf-scr3:#05070b;
+--tf-sky1:#101a2e;--tf-sky2:#0b1220;--tf-sky3:#070a11;
+--tf-sheet1:#131c2e;--tf-sheet2:#0a0e18;
+--tf-foc1:#080d18;--tf-foc2:#04060b;
+--tf-glass:rgba(14,20,33,.84);--tf-glass-strong:rgba(16,24,38,.94);
+--tf-scrim:rgba(4,7,14,.66);--tf-star:#fff;--tf-noise:.5;
+--tf-b1:rgba(56,189,248,.34);--tf-b2:rgba(129,140,248,.30);--tf-b3:rgba(52,211,153,.24);--tf-b4:rgba(244,166,216,.18);
+}
+[data-tf-theme="light"]{
+--tf-ink-rgb:28,36,54;--tf-ink:#1C2436;--tf-surf-rgb:32,52,88;--tf-shadow-rgb:130,148,178;
+--tf-accent-ink:#0e7490;--tf-accent2-ink:#0f766e;--tf-danger:#b4534f;
+--tf-page:#eef1f8;--tf-card-solid:#ffffff;
+--tf-scr1:#fbfcff;--tf-scr2:#f4f7fd;--tf-scr3:#eef2fa;
+--tf-sky1:#dce9fb;--tf-sky2:#e9f1fd;--tf-sky3:#f5f9ff;
+--tf-sheet1:#ffffff;--tf-sheet2:#f3f7fd;
+--tf-foc1:#eaf2fb;--tf-foc2:#f8fbff;
+--tf-glass:rgba(255,255,255,.82);--tf-glass-strong:rgba(255,255,255,.95);
+--tf-scrim:rgba(28,40,64,.32);--tf-star:rgba(120,150,200,.35);--tf-noise:.16;
+--tf-b1:rgba(125,211,252,.50);--tf-b2:rgba(165,180,252,.44);--tf-b3:rgba(134,239,197,.38);--tf-b4:rgba(249,196,226,.34);
+}
+a{color:var(--tf-accent2-ink)}a:hover{color:var(--tf-accent-ink)}
+@keyframes tf-breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.09);opacity:.85}}
+@keyframes tf-sway{0%,100%{transform:rotate(-1.1deg)}50%{transform:rotate(1.1deg)}}
+@keyframes tf-rise{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes tf-sheet{0%{transform:translateY(100%)}100%{transform:translateY(0)}}
+@keyframes tf-pulse{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes tf-float-a{0%,100%{transform:translate3d(0,0,0) scale(1)}33%{transform:translate3d(6%,-7%,0) scale(1.12)}66%{transform:translate3d(-5%,5%,0) scale(.94)}}
+@keyframes tf-float-b{0%,100%{transform:translate3d(0,0,0) scale(1.05)}40%{transform:translate3d(-8%,6%,0) scale(.92)}70%{transform:translate3d(5%,-8%,0) scale(1.14)}}
+.tf-sway{transform-origin:50% 100%;animation:tf-sway 4.2s ease-in-out infinite}
+.tf-breathe{animation:tf-breathe 6s ease-in-out infinite}
+.tf-rise{animation:tf-rise .5s cubic-bezier(.22,1,.36,1) both}
+.tf-sheet{animation:tf-sheet .34s cubic-bezier(.22,1,.36,1) both}
+.tf-pulse{animation:tf-pulse 2.6s ease-in-out infinite}
+.tf-blob{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);will-change:transform}
+.tf-blob-a{animation:tf-float-a 26s ease-in-out infinite}
+.tf-blob-b{animation:tf-float-b 34s ease-in-out infinite}
+@keyframes tf-orb-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.tf-orb-spin{animation:tf-orb-spin 48s linear infinite}
+.tf-scroll::-webkit-scrollbar{width:0}
+input.tf-input{outline:none}
+input.tf-input::placeholder{color:rgba(var(--tf-ink-rgb),.38)}
+@media (prefers-reduced-motion: reduce){.tf-sway,.tf-breathe,.tf-pulse,.tf-blob-a,.tf-blob-b,.tf-orb-spin{animation:none}}
+</style></helmet>
+
+<section data-tf-theme="{{ theme }}" style="position:relative;overflow:hidden;min-height:100vh;padding:44px 48px 64px;transition:background .5s ease;background:
+radial-gradient(900px 520px at 22% 0%, rgba(56,189,248,.10), transparent 60%),
+radial-gradient(760px 520px at 88% 32%, rgba(129,140,248,.10), transparent 62%),
+radial-gradient(700px 480px at 60% 100%, rgba(52,211,153,.07), transparent 60%),
+var(--tf-page);font-family:Archivo,system-ui,sans-serif;color:var(--tf-ink)">
+
+<div class="tf-blob tf-blob-a" style="top:-140px;left:4%;width:620px;height:620px;background:radial-gradient(circle,var(--tf-b1),transparent 68%)"></div>
+<div class="tf-blob tf-blob-b" style="top:24%;right:-120px;width:560px;height:560px;background:radial-gradient(circle,var(--tf-b2),transparent 68%)"></div>
+<div class="tf-blob tf-blob-a" style="bottom:-180px;left:26%;width:680px;height:680px;background:radial-gradient(circle,var(--tf-b3),transparent 70%);animation-duration:31s"></div>
+
+<div style="position:relative;display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start;justify-content:center">
+
+<div style="max-width:340px;display:flex;flex-direction:column;gap:22px;padding-top:14px">
+<div style="display:flex;align-items:baseline;gap:10px">
+<span style="font:700 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;padding:5px 8px;border-radius:5px;background:rgba(56,189,248,.16);border:1px solid rgba(56,189,248,.35);color:var(--tf-accent-ink)">1a</span>
+<span style="font:400 12px/1.3 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.5)">Twentyfour · phone-native</span>
+</div>
+<h1 style="margin:0;font:800 44px/0.96 Archivo,sans-serif;letter-spacing:-.03em;text-wrap:pretty">Time as deliberately<br>as money.</h1>
+<p style="margin:0;font:400 15px/1.55 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.62);text-wrap:pretty">A mobile redesign of the Twentyfour ledger: the day is one continuous object you can read at a glance, logging is two taps, and the plant only grows from substance — never from taps.</p>
+<div style="display:flex;flex-direction:column;gap:12px;padding:16px 0 0;border-top:1px solid rgba(var(--tf-surf-rgb),.09)">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.4)">Try it</span>
+<div style="display:grid;gap:7px;font:400 13px/1.5 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.6)">
+<span>Tap <strong style="color:var(--tf-ink);font-weight:600">＋</strong> → an activity → a duration. Logged.</span>
+<span>Tap the running session to open focus.</span>
+<span>Finish a session and watch the plant take water.</span>
+</div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:4px">
+<button onClick="{{ setFilled }}" style="{{ btnFilled }}">Seeded day</button>
+<button onClick="{{ setEmpty }}" style="{{ btnEmpty }}">First run</button>
+<button onClick="{{ toggleTheme }}" style="{{ themeBtnStyle }}">{{ themeBtnLabel }}</button>
+</div>
+<p style="margin:0;font:italic 400 15px/1.45 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.42)">“{{ stageHaiku }}”</p>
+</div>
+
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ isDark }}" hint-size="402px,874px">
+<div style="position:relative;height:874px;width:402px;overflow:hidden;background:
+radial-gradient(520px 340px at 50% -6%, rgba(56,189,248,.16), transparent 68%),
+radial-gradient(420px 380px at 96% 44%, rgba(129,140,248,.13), transparent 66%),
+linear-gradient(180deg,var(--tf-scr1) 0%,var(--tf-scr2) 52%,var(--tf-scr3) 100%)">
+<div class="tf-blob tf-blob-a" style="top:-90px;left:-70px;width:320px;height:320px;background:radial-gradient(circle,var(--tf-b1),transparent 68%);filter:blur(42px)"></div>
+<div class="tf-blob tf-blob-b" style="top:36%;right:-110px;width:300px;height:300px;background:radial-gradient(circle,var(--tf-b2),transparent 68%);filter:blur(42px)"></div>
+<div class="tf-blob tf-blob-a" style="bottom:-110px;left:-60px;width:340px;height:340px;background:radial-gradient(circle,var(--tf-b3),transparent 70%);filter:blur(46px);animation-duration:29s"></div>
+<div class="tf-blob tf-blob-b" style="bottom:16%;right:-90px;width:240px;height:240px;background:radial-gradient(circle,var(--tf-b4),transparent 70%);filter:blur(40px);animation-duration:37s"></div>
+<div style="position:absolute;inset:0;opacity:var(--tf-noise);pointer-events:none;background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.35'/></svg>&quot;)"></div>
+
+<div class="tf-scroll" style="position:absolute;inset:0;overflow-y:auto;padding:66px 0 132px">
+
+<div style="display:flex;align-items:center;justify-content:center;gap:1px;padding:0 20px 18px">
+<span style="font:700 21px/1 Archivo,sans-serif;letter-spacing:-.045em;color:var(--tf-ink)">twentyf</span>
+<span style="{{ logoRingStyle }}"></span>
+<span style="font:700 21px/1 Archivo,sans-serif;letter-spacing:-.045em;color:var(--tf-ink)">ur</span>
+</div>
+
+
+<sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:18px;padding:0 20px">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+<div style="display:flex;flex-direction:column;gap:3px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">{{ weekdayLabel }}</span>
+<span style="font:700 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">{{ dateLabel }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:999px;background:rgba(var(--tf-surf-rgb),.06);border:1px solid rgba(var(--tf-surf-rgb),.12)">
+<span style="width:7px;height:7px;border-radius:50%;background:#34D399"></span>
+<span style="font:500 12px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.75)">local only</span>
+</div>
+</div>
+
+<div style="position:relative;padding:22px 20px 18px;border-radius:26px;overflow:hidden;background:linear-gradient(150deg,rgba(var(--tf-surf-rgb),.10),rgba(var(--tf-surf-rgb),.035));border:1px solid rgba(var(--tf-surf-rgb),.14);box-shadow:0 26px 54px -30px rgba(var(--tf-shadow-rgb),.95),inset 0 1px rgba(var(--tf-surf-rgb),.16)">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.45)">Accounted today</span>
+<div style="display:flex;align-items:flex-end;gap:8px;margin-top:8px">
+<span style="font:800 58px/0.86 Archivo,sans-serif;letter-spacing:-.045em">{{ accountedBig }}</span>
+<span style="font:600 20px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.55);padding-bottom:5px">{{ accountedSmall }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px;margin-top:12px">
+<span style="font:500 13px/1.3 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.6)">{{ unaccountedLabel }} unaccounted</span>
+<span style="width:1px;height:14px;background:rgba(var(--tf-surf-rgb),.16)"></span>
+<span style="font:600 13px/1.3 Archivo,sans-serif;color:var(--tf-accent-ink)">{{ mattersPct }}% time that matters</span>
+</div>
+
+<div onClick="{{ onOrbTap }}" style="margin-top:18px;position:relative;height:296px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:14px 0">
+<sc-for list="{{ orbHalos }}" as="halo" hint-placeholder-count="3">
+<div class="tf-breathe" style="{{ halo.style }}"></div>
+</sc-for>
+<div style="position:relative;width:250px;height:250px">
+<div class="tf-orb-spin" style="position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 62%,rgba(var(--tf-surf-rgb),.16) 78%,transparent 92%);filter:blur(6px)"></div>
+<div style="{{ orbRingStyle }}"></div>
+<div style="{{ orbInnerStyle }}"></div>
+<div style="{{ nowHandStyle }}"></div>
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;pointer-events:none">
+<span style="font:800 52px/0.9 Archivo,sans-serif;letter-spacing:-.045em;color:var(--tf-ink)">{{ orbBig }}</span>
+<span style="font:600 12px/1.2 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.6);max-width:150px;text-align:center;text-wrap:pretty">{{ orbSub }}</span>
+</div>
+<sc-for list="{{ orbTicks }}" as="tick" hint-placeholder-count="4">
+<span style="{{ tick.style }}">{{ tick.label }}</span>
+</sc-for>
+</div>
+</div>
+<p style="margin:2px 0 0;font:italic 400 19px/1.3 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.72);text-wrap:pretty">{{ orbSentence }}</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:15px">
+<sc-for list="{{ legend }}" as="item" hint-placeholder-count="4">
+<span style="display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(var(--tf-surf-rgb),.05);border:1px solid rgba(var(--tf-surf-rgb),.10)">
+<span style="{{ item.dotStyle }}"></span>
+<span style="font:600 11px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.82);white-space:nowrap">{{ item.name }}</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.5);white-space:nowrap">{{ item.label }}</span>
+</span>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
+<div style="padding:18px 18px 16px;border-radius:26px;background:rgba(var(--tf-surf-rgb),.04);border:1px solid rgba(var(--tf-surf-rgb),.12)">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<span style="font:600 10px/1.3 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.45)">Chronological flow</span>
+<span style="font:400 11px/1.3 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.42)">{{ flowSubtitle }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:5px;margin-top:14px">
+<div style="display:flex;align-items:center;gap:10px;padding-bottom:3px">
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:var(--tf-ink);width:52px;flex:none;white-space:nowrap">{{ nowLabel }}</span>
+<span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(var(--tf-surf-rgb),.55),rgba(var(--tf-surf-rgb),.08))"></span>
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.5);white-space:nowrap">now</span>
+</div>
+<sc-for list="{{ flowRows }}" as="row" hint-placeholder-count="8">
+<div onClick="{{ row.onPick }}" style="{{ row.wrapStyle }}">
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45);width:52px;flex:none;padding-top:2px;padding-left:2px;white-space:nowrap">{{ row.time }}</span>
+<span style="{{ row.barStyle }}"></span>
+<span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;justify-content:center">
+<span style="{{ row.nameStyle }}">{{ row.name }}</span>
+<sc-if value="{{ row.showMeta }}" hint-placeholder-val="{{ false }}">
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.42);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.meta }}</span>
+</sc-if>
+</span>
+<span style="{{ row.durStyle }}">{{ row.duration }}</span>
+</div>
+</sc-for>
+<sc-if value="{{ flowMore }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ toggleFlow }}" style="margin-top:8px;width:100%;height:42px;border-radius:14px;border:1px solid rgba(var(--tf-surf-rgb),.14);background:rgba(var(--tf-surf-rgb),.05);color:rgba(var(--tf-ink-rgb),.8);font:600 12px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap">{{ flowToggleLabel }}</button>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ timerActive }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ openFocus }}" class="tf-rise" style="display:block;width:100%;text-align:left;padding:16px 18px;border-radius:24px;border:1px solid rgba(56,189,248,.42);background:linear-gradient(135deg,rgba(56,189,248,.24),rgba(37,99,235,.14));box-shadow:0 18px 40px -24px rgba(56,189,248,.6),inset 0 1px rgba(var(--tf-surf-rgb),.28);color:var(--tf-ink);cursor:pointer;font-family:Archivo,sans-serif">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+<div style="display:flex;flex-direction:column;gap:5px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--tf-accent-ink)">{{ timerStatusLabel }}</span>
+<span style="font:700 19px/1.1 Archivo,sans-serif;letter-spacing:-.01em">{{ timerActivityName }}</span>
+<span style="font:400 12px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.6)">since {{ timerStartLabel }} · {{ sessionNoteCount }}</span>
+</div>
+<span style="font:300 34px/1 'JetBrains Mono',monospace;letter-spacing:-.03em">{{ timerClock }}</span>
+</div>
+</button>
+</sc-if>
+
+<div style="display:flex;flex-direction:column;gap:11px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Two taps</span>
+<span style="font:400 11px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.38)">hold order = your favourites</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+<sc-for list="{{ favorites }}" as="fav" hint-placeholder-count="4">
+<button onClick="{{ fav.onPick }}" style="{{ fav.style }}">
+<span style="font-size:17px">{{ fav.emoji }}</span>
+<span style="display:flex;flex-direction:column;gap:2px;text-align:left;min-width:0">
+<span style="font:600 13px/1.15 Archivo,sans-serif;color:var(--tf-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ fav.name }}</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45)">{{ fav.todayLabel }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:12px;padding-top:4px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">The ledger</span>
+<div style="display:flex;flex-direction:column;gap:0">
+<sc-for list="{{ ledger }}" as="row" hint-placeholder-count="5">
+<div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(var(--tf-surf-rgb),.07)">
+<span style="font:400 11px/1.5 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.42);width:46px;flex:none;padding-top:2px">{{ row.startLabel }}</span>
+<span style="{{ row.dotStyle }}"></span>
+<span style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0">
+<span style="font:600 15px/1.2 Archivo,sans-serif;letter-spacing:-.01em">{{ row.name }}</span>
+<span style="font:400 11px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.42)">{{ row.categoryName }}</span>
+<sc-for list="{{ row.notes }}" as="note" hint-placeholder-count="1">
+<span style="display:flex;gap:8px;align-items:baseline">
+<span style="font:400 9px/1.6 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.35);flex:none;white-space:nowrap">{{ note.time }}</span>
+<span style="font:italic 400 14px/1.35 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.62)">{{ note.text }}</span>
+</span>
+</sc-for>
+<button onClick="{{ row.onAddNote }}" style="align-self:flex-start;margin-top:2px;height:28px;padding:0 11px;border-radius:999px;border:1px solid rgba(var(--tf-surf-rgb),.14);background:rgba(var(--tf-surf-rgb),.05);color:rgba(var(--tf-ink-rgb),.6);font:500 10.5px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap">＋ {{ row.noteCountLabel }}</button>
+</span>
+<span style="font:600 13px/1.5 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.72);flex:none">{{ row.durationLabel }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
+<div style="padding:30px 22px;border-radius:26px;border:1px dashed rgba(var(--tf-surf-rgb),.18);background:rgba(var(--tf-surf-rgb),.03);display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+<span style="font:700 20px/1.15 Archivo,sans-serif;letter-spacing:-.02em">Nothing on the ledger yet.</span>
+<p style="margin:0;font:italic 400 17px/1.35 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.6)">Twenty-four hours are already being spent. The only question is whether you can see them.</p>
+<button onClick="{{ openLog }}" style="margin-top:6px;height:46px;padding:0 20px;border-radius:999px;border:1px solid rgba(56,189,248,.55);background:linear-gradient(135deg,rgba(56,189,248,.28),rgba(37,99,235,.18));color:#fff;font:600 14px/1 Archivo,sans-serif;cursor:pointer">Log your first block</button>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isInsights }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:20px;padding:0 20px">
+<div style="display:flex;flex-direction:column;gap:3px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">This week</span>
+<span style="font:700 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">Insights</span>
+<span style="font:400 11px/1.3 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.42);margin-top:3px">{{ zoneNote }}</span>
+</div>
+
+<sc-if value="{{ hasEntries }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:18px;align-items:center;padding:20px;border-radius:26px;background:linear-gradient(150deg,rgba(var(--tf-surf-rgb),.09),rgba(var(--tf-surf-rgb),.03));border:1px solid rgba(var(--tf-surf-rgb),.13)">
+<div style="position:relative;width:104px;height:104px;flex:none">
+<div style="{{ ringStyle }}"></div>
+<div style="position:absolute;inset:11px;border-radius:50%;background:var(--tf-card-solid);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px">
+<span style="font:800 27px/1 Archivo,sans-serif;letter-spacing:-.03em">{{ mattersPct }}%</span>
+<span style="font:400 9px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45)">MATTERS</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<span style="font:700 17px/1.15 Archivo,sans-serif;letter-spacing:-.01em">Half your logged hours went to what you chose.</span>
+<span style="font:400 12px/1.45 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.55)">Priorities: Deep Focus &amp; Flow · Presence &amp; Loved Ones · Movement &amp; Vitality</span>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:13px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Where the week went</span>
+<sc-for list="{{ weekCategories }}" as="cat" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<span style="font:600 14px/1.2 Archivo,sans-serif">{{ cat.name }}</span>
+<span style="font:400 12px/1.2 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.6)">{{ cat.label }}</span>
+</div>
+<div style="height:9px;border-radius:99px;background:rgba(var(--tf-surf-rgb),.07);overflow:hidden">
+<div style="{{ cat.barStyle }}"></div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Seven days</span>
+<div style="display:flex;gap:7px;align-items:flex-end;height:132px">
+<sc-for list="{{ weekDays }}" as="day" hint-placeholder-count="7">
+<div style="flex:1;display:flex;flex-direction:column;gap:7px;align-items:center;justify-content:flex-end;height:132px">
+<div style="{{ day.colStyle }}">
+<sc-for list="{{ day.segs }}" as="seg" hint-placeholder-count="3">
+<div style="{{ seg.style }}"></div>
+</sc-for>
+</div>
+<span style="{{ day.labelStyle }}">{{ day.label }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="padding:18px 20px;border-radius:24px;background:rgba(var(--tf-surf-rgb),.045);border:1px solid rgba(var(--tf-surf-rgb),.11);display:flex;flex-direction:column;gap:9px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Monday's closeout</span>
+<p style="margin:0;font:italic 400 19px/1.35 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.86)">“The morning block was the whole day. Everything after it was upkeep.”</p>
+<div style="display:flex;gap:6px;align-items:center;padding-top:2px">
+<span style="width:9px;height:9px;border-radius:50%;background:#34D399"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:#34D399"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:#34D399"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:#34D399"></span>
+<span style="width:9px;height:9px;border-radius:50%;background:rgba(var(--tf-surf-rgb),.16)"></span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45);margin-left:6px">MOOD 4/5</span>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ noEntries }}" hint-placeholder-val="{{ false }}">
+<div style="padding:34px 22px;border-radius:26px;border:1px dashed rgba(var(--tf-surf-rgb),.18);background:rgba(var(--tf-surf-rgb),.03);display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:7px;align-items:flex-end;height:70px;opacity:.28">
+<div style="flex:1;height:24%;border-radius:5px;background:rgba(var(--tf-surf-rgb),.5)"></div>
+<div style="flex:1;height:52%;border-radius:5px;background:rgba(var(--tf-surf-rgb),.5)"></div>
+<div style="flex:1;height:38%;border-radius:5px;background:rgba(var(--tf-surf-rgb),.5)"></div>
+<div style="flex:1;height:66%;border-radius:5px;background:rgba(var(--tf-surf-rgb),.5)"></div>
+<div style="flex:1;height:30%;border-radius:5px;background:rgba(var(--tf-surf-rgb),.5)"></div>
+</div>
+<span style="font:700 19px/1.15 Archivo,sans-serif;letter-spacing:-.02em">Insights arrive after three logged days.</span>
+<p style="margin:0;font:italic 400 17px/1.35 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.58)">Patterns need a little evidence before they can be trusted.</p>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPlant }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:18px;padding:0 20px">
+<div style="position:relative;height:330px;border-radius:30px;overflow:hidden;border:1px solid rgba(var(--tf-surf-rgb),.13);background:linear-gradient(180deg,var(--tf-sky1) 0%,var(--tf-sky2) 46%,var(--tf-sky3) 100%);box-shadow:0 30px 60px -34px rgba(var(--tf-shadow-rgb),.95),inset 0 1px rgba(var(--tf-surf-rgb),.14)">
+<div style="position:absolute;inset:0">
+<sc-for list="{{ stars }}" as="star" hint-placeholder-count="14">
+<span style="{{ star.style }}"></span>
+</sc-for>
+</div>
+<div class="tf-breathe" style="{{ haloStyle }}"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:74px;background:radial-gradient(60% 100% at 50% 100%, rgba(52,211,153,.22), transparent 70%)"></div>
+<div onClick="{{ tapPlant }}" style="position:absolute;inset:0;cursor:pointer">
+<div style="{{ plantStageStyle }}">
+<div class="tf-sway" style="position:relative;width:190px;height:230px">
+<div style="{{ stemStyle }}"></div>
+<sc-for list="{{ leaves }}" as="leaf" hint-placeholder-count="2">
+<div style="{{ leaf.style }}"></div>
+</sc-for>
+<sc-if value="{{ hasCanopy }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:50%;bottom:118px;transform:translateX(-50%);width:150px;height:104px;border-radius:50%;background:radial-gradient(circle at 40% 34%, rgba(124,227,161,.85), rgba(47,140,90,.55) 62%, rgba(20,70,48,.15) 100%);filter:blur(1px)"></div>
+</sc-if>
+<div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);width:104px;height:22px;border-radius:50%;background:radial-gradient(circle,rgba(56,89,72,.9),rgba(20,32,26,.2) 72%)"></div>
+</div>
+</div>
+</div>
+<div style="position:absolute;left:20px;top:18px;display:flex;flex-direction:column;gap:4px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.5)">Day {{ dayCount }} · {{ seasonLabel }}</span>
+<span style="font:700 27px/1.05 Archivo,sans-serif;letter-spacing:-.025em">{{ stageName }}</span>
+</div>
+<span style="position:absolute;left:20px;right:20px;bottom:16px;font:italic 400 17px/1.3 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.72)">{{ stageHaiku }}</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Toward {{ nextStageName }}</span>
+<span style="font:400 12px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.6)">{{ pointsToNext }} pts to go</span>
+</div>
+<div style="height:11px;border-radius:99px;background:rgba(var(--tf-surf-rgb),.07);overflow:hidden;border:1px solid rgba(var(--tf-surf-rgb),.08)">
+<div style="{{ growthBarStyle }}"></div>
+</div>
+<span style="font:400 12px/1.45 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.5)">Growth is earned through logged time, finished focus and reflection — never through taps. Today it drank {{ todayPoints }} of {{ dailyCap }} possible points.</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:11px;padding-top:2px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Water log</span>
+<sc-for list="{{ waterEvents }}" as="ev" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:18px;background:rgba(var(--tf-surf-rgb),.045);border:1px solid rgba(var(--tf-surf-rgb),.09)">
+<span style="width:8px;height:8px;border-radius:50%;background:#7FD3C2;flex:none"></span>
+<span style="flex:1;font:500 14px/1.2 Archivo,sans-serif;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ev.label }}</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45)">{{ ev.when }}</span>
+<span style="font:600 13px/1 Archivo,sans-serif;color:#7FD3C2">+{{ ev.points }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:20px;padding:0 20px">
+<div style="display:flex;flex-direction:column;gap:3px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">This device only</span>
+<span style="font:700 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">Settings</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ toggles }}" as="row" hint-placeholder-count="3">
+<button onClick="{{ row.onToggle }}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:20px;background:rgba(var(--tf-surf-rgb),.045);border:1px solid rgba(var(--tf-surf-rgb),.11);cursor:pointer;text-align:left">
+<span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0">
+<span style="font:600 14px/1.2 Archivo,sans-serif;color:var(--tf-ink)">{{ row.name }}</span>
+<span style="font:400 11px/1.35 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.5)">{{ row.hint }}</span>
+</span>
+<span style="{{ row.trackStyle }}"><span style="{{ row.knobStyle }}"></span></span>
+</button>
+</sc-for>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:11px;padding:16px;border-radius:22px;background:rgba(var(--tf-surf-rgb),.045);border:1px solid rgba(var(--tf-surf-rgb),.11)">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<span style="font:600 14px/1.2 Archivo,sans-serif">Time format</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45);white-space:nowrap">{{ nowLabel }}</span>
+</div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ timeFormats }}" as="fmt" hint-placeholder-count="2">
+<button onClick="{{ fmt.onPick }}" style="{{ fmt.style }}">{{ fmt.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:11px;padding:16px;border-radius:22px;background:rgba(var(--tf-surf-rgb),.045);border:1px solid rgba(var(--tf-surf-rgb),.11)">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<span style="font:600 14px/1.2 Archivo,sans-serif">Time zone</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45);white-space:nowrap">{{ zoneName }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ zones }}" as="zone" hint-placeholder-count="5">
+<button onClick="{{ zone.onPick }}" style="{{ zone.style }}">
+<span style="{{ zone.markStyle }}"></span>
+<span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0">
+<span style="font:600 13px/1.15 Archivo,sans-serif;color:var(--tf-ink);white-space:nowrap">{{ zone.label }}</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45);white-space:nowrap">{{ zone.sub }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+<span style="font:400 11px/1.4 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.45)">Day boundaries and midnight splits follow this zone.</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:11px;padding:16px;border-radius:22px;background:rgba(var(--tf-surf-rgb),.045);border:1px solid rgba(var(--tf-surf-rgb),.11)">
+<span style="font:600 14px/1.2 Archivo,sans-serif">Default focus length</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ focusLengths }}" as="len" hint-placeholder-count="4">
+<button onClick="{{ len.onPick }}" style="{{ len.style }}">{{ len.label }}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:11px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Categories</span>
+<button onClick="{{ newCategory }}" style="height:32px;padding:0 13px;border-radius:999px;border:1px solid rgba(56,189,248,.45);background:rgba(56,189,248,.14);color:var(--tf-accent-ink);font:600 11.5px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap">＋ New</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ categoryRows }}" as="row" hint-placeholder-count="8">
+<button onClick="{{ row.onEdit }}" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:rgba(var(--tf-surf-rgb),.045);border:1px solid rgba(var(--tf-surf-rgb),.11);cursor:pointer;text-align:left;width:100%">
+<span style="{{ row.swatchStyle }}">{{ row.emoji }}</span>
+<span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0">
+<span style="font:600 14px/1.2 Archivo,sans-serif;color:var(--tf-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.name }}</span>
+<span style="font:400 10.5px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ row.meta }}</span>
+</span>
+<span style="font:400 15px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.4)">›</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:11px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Your data</span>
+<sc-for list="{{ dataRows }}" as="row" hint-placeholder-count="4">
+<button onClick="{{ row.onPress }}" style="{{ row.style }}">
+<span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;text-align:left">
+<span style="font:600 14px/1.2 Archivo,sans-serif">{{ row.name }}</span>
+<span style="font:400 11px/1.35 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.5)">{{ row.hint }}</span>
+</span>
+<span style="font:400 15px/1 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.4)">›</span>
+</button>
+</sc-for>
+</div>
+
+<p style="margin:0;font:italic 400 16px/1.4 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.45)">Nothing leaves this phone. The ledger lives in local storage, mirrored to IndexedDB.</p>
+</div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ toastVisible }}" hint-placeholder-val="{{ false }}">
+<div class="tf-rise" style="position:absolute;left:16px;right:16px;bottom:112px;z-index:70;padding:14px 18px;border-radius:20px;background:var(--tf-glass-strong);backdrop-filter:blur(20px);border:1px solid rgba(127,211,194,.45);box-shadow:0 20px 44px -22px rgba(var(--tf-shadow-rgb),.9);display:flex;align-items:center;gap:12px">
+<span style="width:30px;height:30px;border-radius:50%;flex:none;background:radial-gradient(circle at 38% 32%, var(--tf-accent2-ink), #3B8E8A);"></span>
+<span style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0">
+<span style="font:600 14px/1.2 Archivo,sans-serif">{{ toastTitle }}</span>
+<span style="font:400 11px/1.2 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.6)">{{ toastSub }}</span>
+</span>
+</div>
+</sc-if>
+
+<div style="position:absolute;left:12px;right:12px;bottom:20px;z-index:60;height:62px;border-radius:23px;background:var(--tf-glass);backdrop-filter:blur(26px) saturate(150%);border:1px solid rgba(var(--tf-surf-rgb),.14);box-shadow:0 20px 44px -26px rgba(var(--tf-shadow-rgb),.95),inset 0 1px rgba(var(--tf-surf-rgb),.14);display:grid;grid-template-columns:1fr 1fr 62px 1fr 1fr;align-items:center;gap:2px;padding:0 6px">
+<button onClick="{{ goToday }}" style="{{ tabTodayStyle }}"><span style="font-size:13px;line-height:1">◔</span><span style="font:600 9.5px/1 Archivo,sans-serif">Today</span></button>
+<button onClick="{{ goInsights }}" style="{{ tabInsightsStyle }}"><span style="font-size:13px;line-height:1">◫</span><span style="font:600 9.5px/1 Archivo,sans-serif">Insights</span></button>
+<div style="display:flex;align-items:center;justify-content:center">
+<button onClick="{{ openLog }}" style="width:52px;height:52px;border-radius:50%;border:1px solid rgba(56,189,248,.6);background:linear-gradient(140deg,rgba(56,189,248,.55),rgba(37,99,235,.4));box-shadow:0 14px 30px -12px rgba(56,189,248,.8),inset 0 1px 2px rgba(var(--tf-surf-rgb),.6);color:#fff;font:300 26px/1 Archivo,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 2px 0">＋</button>
+</div>
+<button onClick="{{ goPlant }}" style="{{ tabPlantStyle }}"><span style="font-size:13px;line-height:1">❧</span><span style="font:600 9.5px/1 Archivo,sans-serif">Plant</span></button>
+<button onClick="{{ goSettings }}" style="{{ tabSettingsStyle }}"><span style="font-size:13px;line-height:1">⚙</span><span style="font:600 9.5px/1 Archivo,sans-serif">Settings</span></button>
+</div>
+
+<sc-if value="{{ logOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:80">
+<div onClick="{{ closeLog }}" style="position:absolute;inset:0;background:var(--tf-scrim);backdrop-filter:blur(3px)"></div>
+<div class="tf-sheet" style="position:absolute;left:0;right:0;bottom:0;border-radius:34px 34px 0 0;padding:14px 20px 30px;background:linear-gradient(180deg,var(--tf-sheet1),var(--tf-sheet2));border-top:1px solid rgba(var(--tf-surf-rgb),.16);box-shadow:0 -24px 60px -20px rgba(var(--tf-shadow-rgb),.95)">
+<div style="width:44px;height:5px;border-radius:99px;background:rgba(var(--tf-surf-rgb),.22);margin:0 auto 18px"></div>
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+<span style="font:700 22px/1.1 Archivo,sans-serif;letter-spacing:-.02em">{{ logTitle }}</span>
+<button onClick="{{ closeLog }}" style="background:none;border:none;color:rgba(var(--tf-ink-rgb),.5);font:500 14px/1 Archivo,sans-serif;cursor:pointer;padding:6px">Close</button>
+</div>
+
+<sc-if value="{{ logStepPick }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;max-height:330px;overflow-y:auto" class="tf-scroll">
+<sc-for list="{{ allActivities }}" as="act" hint-placeholder-count="8">
+<button onClick="{{ act.onPick }}" style="{{ act.style }}">
+<span style="font-size:17px">{{ act.emoji }}</span>
+<span style="display:flex;flex-direction:column;gap:2px;text-align:left;min-width:0">
+<span style="font:600 13px/1.15 Archivo,sans-serif;color:var(--tf-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ act.name }}</span>
+<span style="font:400 10px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.42);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ act.categoryName }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ logStepDuration }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(var(--tf-surf-rgb),.06);border:1px solid rgba(var(--tf-surf-rgb),.12)">
+<span style="font-size:22px">{{ pickedEmoji }}</span>
+<span style="display:flex;flex-direction:column;gap:3px;flex:1">
+<span style="font:700 16px/1.15 Archivo,sans-serif">{{ pickedName }}</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45)">{{ pickedRange }}</span>
+</span>
+<button onClick="{{ backToPick }}" style="background:none;border:1px solid rgba(var(--tf-surf-rgb),.16);border-radius:99px;color:rgba(var(--tf-ink-rgb),.6);font:500 12px/1 Archivo,sans-serif;padding:9px 13px;cursor:pointer">Change</button>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ durationChips }}" as="chip" hint-placeholder-count="5">
+<button onClick="{{ chip.onPick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+</sc-for>
+</div>
+<input class="tf-input" value="{{ noteDraft }}" onChange="{{ onNoteDraft }}" placeholder="Add a note (optional)…" style="height:50px;padding:0 16px;border-radius:999px;border:1px solid rgba(var(--tf-surf-rgb),.14);background:rgba(var(--tf-surf-rgb),.06);color:var(--tf-ink);font:400 14px/1 Archivo,sans-serif">
+<div style="display:flex;gap:10px">
+<button onClick="{{ saveLog }}" style="flex:1;height:52px;border-radius:999px;border:1px solid rgba(127,211,194,.5);background:linear-gradient(135deg,rgba(127,211,194,.34),rgba(59,142,138,.24));color:#fff;font:700 15px/1 Archivo,sans-serif;cursor:pointer">Save block · +{{ pendingPoints }} pts</button>
+<button onClick="{{ startFromSheet }}" style="height:52px;padding:0 18px;border-radius:999px;border:1px solid rgba(56,189,248,.45);background:rgba(56,189,248,.14);color:var(--tf-accent-ink);font:600 14px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap;flex:none">Start timer</button>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ catEditorOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:86">
+<div onClick="{{ closeCatEditor }}" style="position:absolute;inset:0;background:var(--tf-scrim);backdrop-filter:blur(3px)"></div>
+<div class="tf-sheet" style="position:absolute;left:0;right:0;bottom:0;border-radius:34px 34px 0 0;padding:14px 20px 30px;background:linear-gradient(180deg,var(--tf-sheet1),var(--tf-sheet2));border-top:1px solid rgba(var(--tf-surf-rgb),.16);box-shadow:0 -24px 60px -20px rgba(var(--tf-shadow-rgb),.95)">
+<div style="width:44px;height:5px;border-radius:99px;background:rgba(var(--tf-surf-rgb),.22);margin:0 auto 16px"></div>
+<div style="display:flex;flex-direction:column;gap:15px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<span style="font:700 22px/1.1 Archivo,sans-serif;letter-spacing:-.02em">{{ catEditorTitle }}</span>
+<button onClick="{{ closeCatEditor }}" style="background:none;border:none;color:rgba(var(--tf-ink-rgb),.5);font:500 14px/1 Archivo,sans-serif;cursor:pointer;padding:6px">Close</button>
+</div>
+<div style="{{ catPreviewStyle }}">
+<span style="font-size:20px">{{ catEmoji }}</span>
+<span style="font:700 16px/1.2 Archivo,sans-serif;color:var(--tf-ink)">{{ catPreviewName }}</span>
+</div>
+<div style="display:flex;gap:9px">
+<input class="tf-input" value="{{ catEmoji }}" onChange="{{ onCatEmoji }}" placeholder="🌿" style="width:62px;flex:none;height:52px;text-align:center;border-radius:18px;border:1px solid rgba(var(--tf-surf-rgb),.14);background:rgba(var(--tf-surf-rgb),.06);color:var(--tf-ink);font:400 20px/1 Archivo,sans-serif">
+<input class="tf-input" value="{{ catName }}" onChange="{{ onCatName }}" placeholder="Category name" style="flex:1;min-width:0;height:52px;padding:0 16px;border-radius:18px;border:1px solid rgba(var(--tf-surf-rgb),.14);background:rgba(var(--tf-surf-rgb),.06);color:var(--tf-ink);font:400 15px/1 Archivo,sans-serif">
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Colour</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ catColorOptions }}" as="col" hint-placeholder-count="10">
+<button onClick="{{ col.onPick }}" style="{{ col.style }}"></button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:9px">
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.42)">Kind</span>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ catKindOptions }}" as="kind" hint-placeholder-count="3">
+<button onClick="{{ kind.onPick }}" style="{{ kind.style }}">{{ kind.label }}</button>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;gap:10px">
+<button onClick="{{ saveCat }}" style="flex:1;height:52px;border-radius:999px;border:1px solid rgba(127,211,194,.5);background:linear-gradient(135deg,rgba(127,211,194,.34),rgba(59,142,138,.24));color:var(--tf-ink);font:700 15px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap">Save category</button>
+<sc-if value="{{ catCanDelete }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ deleteCat }}" style="height:52px;padding:0 18px;border-radius:999px;border:1px solid rgba(213,108,104,.4);background:rgba(213,108,104,.12);color:var(--tf-danger);font:600 14px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap">Delete</button>
+</sc-if>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ noteSheetOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:85">
+<div onClick="{{ closeNoteSheet }}" style="position:absolute;inset:0;background:var(--tf-scrim);backdrop-filter:blur(3px)"></div>
+<div class="tf-sheet" style="position:absolute;left:0;right:0;bottom:0;border-radius:34px 34px 0 0;padding:14px 20px 30px;background:linear-gradient(180deg,var(--tf-sheet1),var(--tf-sheet2));border-top:1px solid rgba(var(--tf-surf-rgb),.16);box-shadow:0 -24px 60px -20px rgba(var(--tf-shadow-rgb),.95)">
+<div style="width:44px;height:5px;border-radius:99px;background:rgba(var(--tf-surf-rgb),.22);margin:0 auto 18px"></div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font:700 22px/1.1 Archivo,sans-serif;letter-spacing:-.02em">Add a note</span>
+<span style="font:400 12px/1.3 Archivo,sans-serif;color:rgba(var(--tf-ink-rgb),.55)">{{ noteTargetName }} · notes stack up on a block</span>
+</div>
+<input class="tf-input" value="{{ entryNoteDraft }}" onChange="{{ onEntryNoteDraft }}" onKeyDown="{{ onEntryNoteKey }}" placeholder="What happened in there?" style="height:52px;padding:0 16px;border-radius:18px;border:1px solid rgba(var(--tf-surf-rgb),.14);background:rgba(var(--tf-surf-rgb),.06);color:var(--tf-ink);font:400 15px/1 Archivo,sans-serif">
+<div style="display:flex;gap:10px">
+<button onClick="{{ saveEntryNote }}" style="flex:1;height:52px;border-radius:999px;border:1px solid rgba(127,211,194,.5);background:linear-gradient(135deg,rgba(127,211,194,.34),rgba(59,142,138,.24));color:var(--tf-ink);font:700 15px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap">Save note</button>
+<button onClick="{{ closeNoteSheet }}" style="height:52px;padding:0 20px;border-radius:999px;border:1px solid rgba(var(--tf-surf-rgb),.16);background:rgba(var(--tf-surf-rgb),.05);color:rgba(var(--tf-ink-rgb),.65);font:600 14px/1 Archivo,sans-serif;cursor:pointer;white-space:nowrap">Cancel</button>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ focusOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:90;background:radial-gradient(600px 520px at 50% 34%, rgba(56,189,248,.2), transparent 66%),linear-gradient(180deg,var(--tf-foc1),var(--tf-foc2));display:flex;flex-direction:column;align-items:center;padding:80px 24px 40px">
+<div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+<button onClick="{{ closeFocus }}" style="background:rgba(var(--tf-surf-rgb),.07);border:1px solid rgba(var(--tf-surf-rgb),.14);border-radius:999px;color:rgba(var(--tf-ink-rgb),.7);font:500 13px/1 Archivo,sans-serif;padding:11px 15px;cursor:pointer">Minimise</button>
+<span style="font:600 10px/1 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--tf-ink-rgb),.45)">{{ timerStatusLabel }}</span>
+</div>
+<div style="position:relative;width:290px;height:290px;margin-top:44px;display:flex;align-items:center;justify-content:center">
+<div class="tf-breathe" style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.28),transparent 68%)"></div>
+<div style="position:absolute;inset:22px;border-radius:50%;border:1px solid rgba(var(--tf-surf-rgb),.10)"></div>
+<div style="{{ focusRingStyle }}"></div>
+<div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:8px">
+<span style="font:300 62px/1 'JetBrains Mono',monospace;letter-spacing:-.04em">{{ timerClock }}</span>
+<span style="font:600 15px/1.2 Archivo,sans-serif;letter-spacing:-.01em">{{ timerActivityName }}</span>
+<span style="font:400 11px/1 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.45)">{{ focusTargetLabel }}</span>
+</div>
+</div>
+<p style="margin:26px 0 0;max-width:280px;text-align:center;font:italic 400 19px/1.35 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.62)">{{ focusLine }}</p>
+
+<div style="width:100%;margin-top:22px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;gap:8px;align-items:center">
+<input class="tf-input" value="{{ noteDraft }}" onChange="{{ onNoteDraft }}" onKeyDown="{{ onNoteKey }}" placeholder="Note this moment…" style="flex:1;min-width:0;height:48px;padding:0 16px;border-radius:999px;border:1px solid rgba(var(--tf-surf-rgb),.16);background:rgba(var(--tf-surf-rgb),.07);color:var(--tf-ink);font:400 14px/1 Archivo,sans-serif">
+<button onClick="{{ addSessionNote }}" style="height:48px;width:48px;flex:none;border-radius:50%;border:1px solid rgba(var(--tf-surf-rgb),.18);background:rgba(var(--tf-surf-rgb),.10);color:var(--tf-ink);font:400 20px/1 Archivo,sans-serif;cursor:pointer">＋</button>
+</div>
+<sc-if value="{{ hasSessionNotes }}" hint-placeholder-val="{{ true }}">
+<div class="tf-scroll" style="max-height:132px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:2px 2px 2px 0">
+<sc-for list="{{ sessionNotes }}" as="note" hint-placeholder-count="2">
+<div style="display:flex;gap:10px;align-items:baseline;padding:11px 14px;border-radius:16px;background:rgba(var(--tf-surf-rgb),.05);border:1px solid rgba(var(--tf-surf-rgb),.10)">
+<span style="font:400 9.5px/1.5 'JetBrains Mono',monospace;color:rgba(var(--tf-ink-rgb),.42);flex:none;white-space:nowrap">{{ note.time }}</span>
+<span style="font:italic 400 15px/1.3 'Instrument Serif',serif;color:rgba(var(--tf-ink-rgb),.82)">{{ note.text }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:12px;width:100%">
+<button onClick="{{ finishTimer }}" style="height:56px;border-radius:999px;border:1px solid rgba(127,211,194,.55);background:linear-gradient(135deg,rgba(127,211,194,.36),rgba(59,142,138,.24));color:#fff;font:700 16px/1 Archivo,sans-serif;cursor:pointer">Finish · waters the plant +{{ focusPoints }}</button>
+<div style="display:flex;gap:10px">
+<button onClick="{{ togglePause }}" style="flex:1;height:50px;border-radius:999px;border:1px solid rgba(var(--tf-surf-rgb),.16);background:rgba(var(--tf-surf-rgb),.06);color:var(--tf-ink);font:600 14px/1 Archivo,sans-serif;cursor:pointer">{{ pauseLabel }}</button>
+<button onClick="{{ discardTimer }}" style="flex:1;height:50px;border-radius:999px;border:1px solid rgba(213,108,104,.4);background:rgba(213,108,104,.12);color:var(--tf-danger);font:600 14px/1 Archivo,sans-serif;cursor:pointer">Discard</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</x-import>
+
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#38BDF8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#38BDF8&quot;,&quot;#7FD3C2&quot;,&quot;#818CF8&quot;,&quot;#F59E0B&quot;]}}">
+let CATS = {
+  sleep: { name: 'Rest & Sleep', color: '#818CF8', emoji: '😴' },
+  work: { name: 'Deep Focus & Flow', color: '#38BDF8', emoji: '💼' },
+  family: { name: 'Presence & Loved Ones', color: '#34D399', emoji: '🏡' },
+  health: { name: 'Movement & Vitality', color: '#F59E0B', emoji: '💪' },
+  learning: { name: 'Reading & Wisdom', color: '#60A5FA', emoji: '📚' },
+  leisure: { name: 'Leisure & Unwind', color: '#A78BFA', emoji: '🎬' },
+  social: { name: 'Social & Feeds', color: '#FB7185', emoji: '📱' },
+  chores: { name: 'Chores & Upkeep', color: '#94A3B8', emoji: '🧺' },
+};
+
+let ACTS = [
+  { id: 'deep', name: 'Deep Flow Session', cat: 'work' },
+  { id: 'work', name: 'Work & Projects', cat: 'work' },
+  { id: 'family', name: 'Family & Friends', cat: 'family' },
+  { id: 'move', name: 'Exercise & Movement', cat: 'health' },
+  { id: 'walk', name: 'Mindful Walk', cat: 'health' },
+  { id: 'read', name: 'Reading & Growth', cat: 'learning' },
+  { id: 'social', name: 'Social Feeds', cat: 'social' },
+  { id: 'chores', name: 'Home Care & Meals', cat: 'chores' },
+  { id: 'sleep', name: 'Restful Sleep', cat: 'sleep' },
+  { id: 'stream', name: 'Leisure & Streaming', cat: 'leisure' },
+];
+
+const DEFAULT_CATS = JSON.parse(JSON.stringify(CATS));
+const DEFAULT_ACTS = JSON.parse(JSON.stringify(ACTS));
+const CAT_COLORS = ['#818CF8', '#38BDF8', '#34D399', '#F59E0B', '#60A5FA', '#A78BFA', '#FB7185', '#94A3B8', '#7FD3C2', '#F4A6D8'];
+const CAT_KINDS = ['flexible', 'fixed', 'rest'];
+
+const PRIORITY = ['work', 'family', 'health'];
+const BASE_NOW = 19 * 60 + 42;
+const DAILY_CAP = 18;
+
+const BANDS = [
+  { name: 'Seed', min: 0, max: 10, haiku: 'A quiet seed, holding a whole forest of intention.' },
+  { name: 'Sprout', min: 10, max: 28, haiku: 'First green reach toward a wide, waiting sky.' },
+  { name: 'Young Sapling', min: 28, max: 62, haiku: 'Stretching limbs, finding its own quiet rhythm.' },
+  { name: 'Maturing Tree', min: 62, max: 120, haiku: 'Roots run deep, a canopy beginning to gather light.' },
+  { name: 'Full Tree', min: 120, max: 220, haiku: 'A living sanctuary — shelter, shade, and stillness.' },
+];
+
+const SEED_ENTRIES = [
+  { id: 'e1', act: 'sleep', start: 0, end: 410, notes: [{ min: 410, text: 'Long, unbroken. Woke before the alarm.' }] },
+  { id: 'e2', act: 'walk', start: 420, end: 460 },
+  { id: 'e3', act: 'work', start: 480, end: 570 },
+  { id: 'e4', act: 'deep', start: 580, end: 685, notes: [
+    { min: 596, text: 'Started with the migration path, not the schema.' },
+    { min: 641, text: 'Overlap rule is the whole design. Everything else follows.' },
+    { min: 684, text: 'One sitting, no tabs. Rare.' },
+  ] },
+  { id: 'e5', act: 'chores', start: 690, end: 730 },
+  { id: 'e6', act: 'social', start: 735, end: 780, notes: [{ min: 780, text: 'Meant to be five minutes.' }] },
+  { id: 'e7', act: 'deep', start: 790, end: 905 },
+  { id: 'e8', act: 'read', start: 915, end: 960 },
+  { id: 'e9', act: 'work', start: 970, end: 1050 },
+  { id: 'e10', act: 'family', start: 1080, end: 1160, notes: [{ min: 1160, text: 'Dinner ran long. Worth every minute.' }] },
+];
+
+const SEED_WATER = [
+  { id: 'w1', label: 'Deep Flow Session · 1h 55m', points: 9, whenMin: 905 },
+  { id: 'w2', label: 'Presence & Loved Ones logged', points: 7, whenMin: 1160 },
+  { id: 'w3', label: "Monday's reflection", points: 13, whenLabel: 'Mon' },
+];
+
+const STARS = [
+  [12, 18, 1.6, 0.55], [34, 46, 1.1, 0.4], [58, 12, 2, 0.7], [72, 34, 1.3, 0.45],
+  [88, 22, 1.7, 0.6], [22, 62, 1.2, 0.3], [46, 28, 1.5, 0.5], [64, 58, 1.1, 0.35],
+  [82, 66, 1.4, 0.4], [8, 40, 1.3, 0.35], [93, 44, 1.2, 0.5], [40, 8, 1.6, 0.6],
+  [70, 8, 1.1, 0.3], [28, 34, 1.3, 0.42],
+];
+
+const TZS = [
+  { id: 'ny', label: 'New York', sub: 'EDT · UTC−4', off: 0 },
+  { id: 'la', label: 'Los Angeles', sub: 'PDT · UTC−7', off: -3 },
+  { id: 'london', label: 'London', sub: 'BST · UTC+1', off: 5 },
+  { id: 'berlin', label: 'Berlin', sub: 'CEST · UTC+2', off: 6 },
+  { id: 'tokyo', label: 'Tokyo', sub: 'JST · UTC+9', off: 13 },
+];
+
+function act(id) { return ACTS.find((a) => a.id === id) || ACTS[0]; }
+function cat(id) { return CATS[act(id).cat] || { name: 'Uncategorised', color: '#94A3B8', emoji: '•', kind: 'flexible' }; }
+function fmt(min) {
+  const h = Math.floor(min / 60); const m = Math.round(min % 60);
+  if (h === 0) return m + 'm';
+  if (m === 0) return h + 'h';
+  return h + 'h ' + m + 'm';
+}
+function hhmm(min) {
+  const m = ((min % 1440) + 1440) % 1440;
+  return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(Math.round(m % 60)).padStart(2, '0');
+}
+function pointsForTimeLog(min) { return Math.max(1, Math.round(Math.min(min * 0.4, 16))); }
+function pointsForFocus(min) { return 6 + Math.round(Math.min(min * 0.08, 6)); }
+
+class Component extends DCLogic {
+  state = {
+    tab: 'today',
+    mode: 'filled',
+    entries: SEED_ENTRIES,
+    water: SEED_WATER,
+    points: 34,
+    todayPoints: 16,
+    timer: { act: 'read', startMin: 1160, elapsedSec: 22 * 60, paused: false },
+    focusOpen: false,
+    logOpen: false,
+    logAct: null,
+    logDur: 30,
+    toast: null,
+    tick: 0,
+    picked: 'e4',
+    sound: true,
+    haptics: true,
+    weekMonday: true,
+    focusLen: 25,
+    hour12: true,
+    tz: 'ny',
+    flowExpanded: false,
+    orbFocus: null,
+    cats: JSON.parse(JSON.stringify(DEFAULT_CATS)),
+    acts: JSON.parse(JSON.stringify(DEFAULT_ACTS)),
+    catEditor: null,
+    theme: 'dark',
+    sessionNotes: [{ min: 1172, text: 'Chapter four, slowly. Nothing to finish.' }],
+    noteDraft: '',
+    noteTarget: null,
+    entryNoteDraft: '',
+  };
+
+  componentDidMount() {
+    this.iv = setInterval(() => {
+      const t = this.state.timer;
+      if (!t || t.paused) return;
+      this.setState((s) => ({ timer: { ...s.timer, elapsedSec: s.timer.elapsedSec + 1 }, tick: s.tick + 1 }));
+    }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this.iv); if (this.tt) clearTimeout(this.tt); }
+
+  toast(title, sub) {
+    if (this.tt) clearTimeout(this.tt);
+    this.setState({ toast: { title, sub } });
+    this.tt = setTimeout(() => this.setState({ toast: null }), 3600);
+  }
+
+  setMode(mode) {
+    if (mode === 'empty') {
+      this.setState({ mode, entries: [], water: [], points: 3, todayPoints: 0, timer: null, focusOpen: false, logOpen: false, logAct: null, toast: null, tab: 'today', sessionNotes: [], noteDraft: '', noteTarget: null });
+    } else {
+      this.setState({ mode, entries: SEED_ENTRIES, water: SEED_WATER, points: 34, todayPoints: 16, timer: { act: 'read', startMin: 1160, elapsedSec: 22 * 60, paused: false }, focusOpen: false, logOpen: false, logAct: null, toast: null, tab: 'today', sessionNotes: [{ min: 1172, text: 'Chapter four, slowly. Nothing to finish.' }], noteDraft: '', noteTarget: null });
+    }
+  }
+
+  water(label, points, whenMin) {
+    this.setState((s) => ({
+      points: Math.min(220, s.points + points),
+      todayPoints: Math.min(DAILY_CAP, s.todayPoints + points),
+      water: [{ id: 'w' + Date.now(), label, points, whenMin }, ...s.water].slice(0, 6),
+    }));
+  }
+
+  nowMin() { return BASE_NOW + Math.floor(this.state.tick / 60); }
+
+  addSessionNote() {
+    const text = this.state.noteDraft.trim();
+    if (!text) return;
+    this.setState((s) => ({ sessionNotes: [...s.sessionNotes, { min: this.nowMin(), text }], noteDraft: '' }));
+  }
+
+  openCatEditor(key) {
+    const c = key ? this.state.cats[key] : null;
+    this.setState({
+      catEditor: key
+        ? { key, name: c.name, emoji: c.emoji, color: c.color, kind: c.kind || 'flexible', isNew: false }
+        : { key: 'cat' + Date.now(), name: '', emoji: '🌿', color: CAT_COLORS[2], kind: 'flexible', isNew: true },
+    });
+  }
+
+  saveCatEditor() {
+    const d = this.state.catEditor;
+    if (!d) return;
+    const name = d.name.trim() || 'Untitled';
+    this.setState((s) => {
+      const cats = { ...s.cats, [d.key]: { name, color: d.color, emoji: d.emoji || '•', kind: d.kind } };
+      let acts = s.acts;
+      const autoId = 'auto-' + d.key;
+      if (d.isNew) acts = [...s.acts, { id: autoId, name, cat: d.key }];
+      else acts = s.acts.map((a) => (a.id === autoId ? { ...a, name } : a));
+      return { cats, acts, catEditor: null };
+    });
+    this.toast(d.isNew ? 'Category created' : 'Category updated', name + ' · ' + d.kind);
+  }
+
+  deleteCat() {
+    const d = this.state.catEditor;
+    if (!d || d.isNew) return;
+    this.setState((s) => {
+      const cats = { ...s.cats };
+      delete cats[d.key];
+      const gone = s.acts.filter((a) => a.cat === d.key).map((a) => a.id);
+      return {
+        cats,
+        acts: s.acts.filter((a) => a.cat !== d.key),
+        entries: s.entries.filter((e) => !gone.includes(e.act)),
+        catEditor: null,
+        orbFocus: null,
+        logAct: null,
+      };
+    });
+    this.toast('Category removed', d.name + ' and its blocks left the ledger');
+  }
+
+  addEntryNote() {
+    const text = this.state.entryNoteDraft.trim();
+    const id = this.state.noteTarget;
+    if (!text || !id) return;
+    this.setState((s) => ({
+      entries: s.entries.map((e) => (e.id === id ? { ...e, notes: [...(e.notes || []), { min: e.end, text }] } : e)),
+      entryNoteDraft: '', noteTarget: null,
+    }));
+    this.toast('Note added', 'Attached to the block, not the day');
+  }
+
+  startTimer(id) {
+    this.setState({ timer: { act: id, startMin: this.nowMin(), elapsedSec: 0, paused: false }, focusOpen: true, logOpen: false, logAct: null, sessionNotes: [], noteDraft: '' });
+  }
+
+  finishTimer() {
+    const t = this.state.timer;
+    if (!t) return;
+    const mins = Math.max(1, Math.round(t.elapsedSec / 60));
+    const pts = pointsForFocus(mins);
+    const a = act(t.act);
+    this.setState((s) => ({
+      entries: [...s.entries, { id: 'e' + Date.now(), act: t.act, start: t.startMin, end: t.startMin + mins, notes: s.sessionNotes }],
+      timer: null, focusOpen: false, sessionNotes: [], noteDraft: '',
+    }));
+    this.water(a.name + ' · ' + fmt(mins), pts, t.startMin + mins);
+    this.toast('Session closed · +' + pts + ' growth', fmt(mins) + ' of ' + a.name + ' on the ledger');
+  }
+
+  saveLog() {
+    const id = this.state.logAct; const dur = this.state.logDur;
+    if (!id) return;
+    const end = this.nowMin(); const a = act(id);
+    const pts = pointsForTimeLog(dur);
+    this.setState((s) => ({
+      entries: [...s.entries, { id: 'e' + Date.now(), act: id, start: end - dur, end, notes: s.noteDraft.trim() ? [{ min: end, text: s.noteDraft.trim() }] : [] }],
+      logOpen: false, logAct: null, logDur: 30, noteDraft: '',
+    }));
+    this.water(a.name + ' · ' + fmt(dur), pts, end);
+    this.toast(fmt(dur) + ' logged · +' + pts + ' growth', a.name + ' · ' + fmt(dur) + ' block, ending now');
+  }
+
+  renderVals() {
+    const s = this.state;
+    CATS = s.cats;
+    ACTS = s.acts;
+    const accent = this.props.accentColor ?? '#38BDF8';
+    const zone = TZS.find((z) => z.id === s.tz) || TZS[0];
+    const tzOff = zone.off * 60;
+    const t = (min) => {
+      const m = (((min % 1440) + 1440) % 1440);
+      if (!s.hour12) return hhmm(m);
+      const h = Math.floor(m / 60);
+      const mm = String(Math.round(m % 60)).padStart(2, '0');
+      const hr = h % 12 === 0 ? 12 : h % 12;
+      return hr + ':' + mm + (h < 12 ? ' am' : ' pm');
+    };
+    // Re-key the whole day to the chosen zone: shift every block, then split at
+    // the shifted midnight so the displayed day is always 00:00 → 24:00.
+    const entries = [...s.entries].sort((a, b) => a.start - b.start).flatMap((e) => {
+      const out = [];
+      [-1440, 0, 1440].forEach((k) => {
+        const a = Math.max(0, e.start + tzOff + k);
+        const b = Math.min(1440, e.end + tzOff + k);
+        if (b > a) out.push({ ...e, base: e.id, id: e.id + '_' + k, start: a, end: b });
+      });
+      return out;
+    }).sort((a, b) => a.start - b.start);
+    const nowRaw = this.nowMin() + tzOff;
+    const dayShift = Math.floor(nowRaw / 1440);
+    const now = ((nowRaw % 1440) + 1440) % 1440;
+    const DAYS = [
+      { weekday: 'Monday · week 36', date: '1 September' },
+      { weekday: 'Tuesday · week 36', date: '2 September' },
+      { weekday: 'Wednesday · week 36', date: '3 September' },
+    ];
+    const dayInfo = DAYS[Math.min(2, Math.max(0, 1 + dayShift))];
+    const totalMin = entries.reduce((n, e) => n + (e.end - e.start), 0);
+    const priorityMin = entries.filter((e) => PRIORITY.includes(act(e.act).cat)).reduce((n, e) => n + (e.end - e.start), 0);
+    const mattersPct = totalMin ? Math.round((priorityMin / totalMin) * 100) : 0;
+    const unaccounted = Math.max(0, now - totalMin);
+
+    // Top bar: one continuous 24h day, each block in its real position
+    const pct = (min) => (min / 1440) * 100;
+    const dayBar = entries.map((e) => ({
+      style: {
+        position: 'absolute', top: 0, bottom: 0,
+        left: pct(e.start) + '%', width: Math.max(0.4, pct(e.end - e.start)) + '%',
+        background: 'linear-gradient(180deg,' + cat(e.act).color + 'ff,' + cat(e.act).color + 'aa)',
+        borderLeft: '1px solid rgba(4,7,14,.45)',
+      },
+    }));
+    const nowMarkerStyleUnused = {
+      position: 'absolute', top: -2, bottom: -2, left: pct(now) + '%', width: 2,
+      background: '#fff', boxShadow: '0 0 10px rgba(var(--tf-surf-rgb),.8)',
+    };
+
+    // ── The living day orb: 24h as one breathing ring ──
+    const focusCat = s.orbFocus;
+    const orbStops = [];
+    let ocur = 0;
+    entries.forEach((e) => {
+      const a = pct(e.start); const b = pct(e.end); const c = cat(e.act).color;
+      const dim = focusCat && act(e.act).cat !== focusCat;
+      if (a > ocur) orbStops.push('rgba(var(--tf-surf-rgb),.07) ' + ocur + '% ' + a + '%');
+      orbStops.push(c + (dim ? '30' : 'f2') + ' ' + a + '%', c + (dim ? '20' : '99') + ' ' + b + '%');
+      ocur = b;
+    });
+    if (ocur < 100) orbStops.push('rgba(var(--tf-surf-rgb),.07) ' + ocur + '% 100%');
+    const orbRingStyle = {
+      position: 'absolute', inset: 0, borderRadius: '50%',
+      background: 'conic-gradient(from -90deg,' + orbStops.join(',') + ')',
+      mask: 'radial-gradient(farthest-side, transparent calc(100% - 34px), #000 calc(100% - 33px))',
+      WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 34px), #000 calc(100% - 33px))',
+      filter: 'saturate(1.15)',
+      transition: 'background .5s ease',
+    };
+    const orbCatTotals = {};
+    entries.forEach((e) => { const c = act(e.act).cat; orbCatTotals[c] = (orbCatTotals[c] || 0) + (e.end - e.start); });
+    const orbTop = Object.keys(orbCatTotals).sort((a, b) => orbCatTotals[b] - orbCatTotals[a]);
+    const orbInnerStyle = {
+      position: 'absolute', inset: 42, borderRadius: '50%',
+      background: 'radial-gradient(circle at 42% 34%, ' + ((CATS[focusCat || orbTop[0]] || CATS.work).color) + '2e, transparent 68%), radial-gradient(circle at 68% 74%, ' + ((CATS[orbTop[1]] ? CATS[orbTop[1]].color : '#38BDF8')) + '24, transparent 66%)',
+      boxShadow: 'inset 0 1px 0 rgba(var(--tf-surf-rgb),.10)',
+      transition: 'background .5s ease',
+    };
+    const orbHalos = orbTop.slice(0, 3).map((c, i) => ({
+      style: {
+        position: 'absolute', width: 240 - i * 34, height: 240 - i * 34, borderRadius: '50%',
+        left: '50%', top: '50%', marginLeft: -(120 - i * 17), marginTop: -(120 - i * 17),
+        background: 'radial-gradient(circle,' + CATS[c].color + '3a, transparent 66%)',
+        filter: 'blur(28px)', animationDuration: 7 + i * 2.5 + 's', pointerEvents: 'none',
+      },
+    }));
+    const nowHandStyle = {
+      position: 'absolute', left: '50%', top: '50%', width: 2, height: 132, marginLeft: -1,
+      transformOrigin: '50% 0%', transform: 'rotate(' + ((now / 1440) * 360 + 180) + 'deg)',
+      background: 'linear-gradient(180deg, transparent 0 58%, rgba(var(--tf-ink-rgb),.75) 100%)',
+      pointerEvents: 'none',
+    };
+    const orbTicks = [
+      { label: '24', pos: { top: -20, left: '50%', transform: 'translateX(-50%)' } },
+      { label: '06', pos: { top: '50%', right: -22, transform: 'translateY(-50%)' } },
+      { label: '12', pos: { bottom: -20, left: '50%', transform: 'translateX(-50%)' } },
+      { label: '18', pos: { top: '50%', left: -22, transform: 'translateY(-50%)' } },
+    ].map((x) => ({
+      label: x.label,
+      style: { position: 'absolute', font: '500 9.5px/1 "JetBrains Mono",monospace', color: 'rgba(var(--tf-ink-rgb),.55)', letterSpacing: '.06em', ...x.pos },
+    }));
+    const bigCat = focusCat || orbTop[0];
+    const bigMin = bigCat ? orbCatTotals[bigCat] : 0;
+    const orbBig = focusCat ? fmt(bigMin).split(' ')[0] : (totalMin ? fmt(totalMin).split(' ')[0] : '0h');
+    const orbSub = focusCat ? CATS[focusCat].name : (totalMin ? 'accounted of 24 hours' : 'nothing logged yet');
+    const orbSentence = !totalMin
+      ? 'An empty ring is still a whole day.'
+      : focusCat
+        ? CATS[focusCat].name + ' took ' + fmt(bigMin) + ' — that is ' + Math.round((bigMin / totalMin) * 100) + '% of everything you logged.'
+        : 'The biggest colour today is ' + CATS[orbTop[0]].name + ', at ' + fmt(orbCatTotals[orbTop[0]]) + '. Tap the ring to walk through the rest.';
+
+    // Chronological flow: the day blocked off top-to-bottom, height ∝ duration
+    const flowRows = [];
+    let cursor = 0;
+    entries.forEach((e) => {
+      const gap = e.start - cursor;
+      if (gap >= 15) {
+        flowRows.push({
+          onPick: () => {},
+          time: t(cursor),
+          wrapStyle: { display: 'flex', gap: 10, alignItems: 'center', height: 26, opacity: 0.7 },
+          barStyle: { width: 5, height: '100%', borderRadius: 3, flex: 'none', background: 'repeating-linear-gradient(180deg,rgba(var(--tf-surf-rgb),.28) 0 3px,transparent 3px 6px)' },
+          nameStyle: { font: '500 11px/1.1 Archivo,sans-serif', color: 'rgba(var(--tf-ink-rgb),.45)', whiteSpace: 'nowrap' },
+          name: 'unaccounted',
+          showMeta: false, meta: '',
+          duration: fmt(gap),
+          durStyle: { font: '400 11px/1 "JetBrains Mono",monospace', color: 'rgba(var(--tf-ink-rgb),.4)', flex: 'none', whiteSpace: 'nowrap' },
+        });
+      }
+      const mins = e.end - e.start;
+      const h = Math.max(34, Math.min(112, Math.round(mins * 0.42)));
+      const on = s.picked === e.base;
+      const c = cat(e.act).color;
+      flowRows.push({
+        onPick: () => this.setState({ picked: e.base }),
+        time: t(e.start),
+        wrapStyle: {
+          display: 'flex', gap: 10, alignItems: 'stretch', height: h, cursor: 'pointer',
+          padding: '0 10px 0 0', borderRadius: 12,
+          background: 'linear-gradient(90deg,' + c + '2e,' + c + '10)',
+          border: on ? '1px solid ' + c : '1px solid rgba(var(--tf-surf-rgb),.08)',
+          boxShadow: on ? '0 0 0 3px ' + c + '22' : 'none',
+        },
+        barStyle: { width: 5, height: '100%', borderRadius: 3, flex: 'none', background: 'linear-gradient(180deg,' + c + ',' + c + '88)', marginLeft: 0 },
+        nameStyle: { font: '700 13px/1.15 Archivo,sans-serif', color: 'var(--tf-ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
+        name: act(e.act).name,
+        showMeta: h >= 44,
+        meta: t(e.start) + '–' + t(e.end) + ' · ' + cat(e.act).name,
+        duration: fmt(mins),
+        durStyle: { font: '600 12px/1 "JetBrains Mono",monospace', color: 'rgba(var(--tf-ink-rgb),.8)', flex: 'none', alignSelf: 'center', whiteSpace: 'nowrap' },
+      });
+      cursor = Math.max(cursor, e.end);
+    });
+    if (now - cursor >= 15) {
+      flowRows.push({
+        onPick: () => {},
+        time: t(cursor),
+        wrapStyle: { display: 'flex', gap: 10, alignItems: 'center', height: 26, opacity: 0.7 },
+        barStyle: { width: 5, height: '100%', borderRadius: 3, flex: 'none', background: 'repeating-linear-gradient(180deg,rgba(var(--tf-surf-rgb),.28) 0 3px,transparent 3px 6px)' },
+        nameStyle: { font: '500 11px/1.1 Archivo,sans-serif', color: 'rgba(var(--tf-ink-rgb),.45)', whiteSpace: 'nowrap' },
+        name: 'unaccounted',
+        showMeta: false, meta: '',
+        duration: fmt(now - cursor),
+        durStyle: { font: '400 11px/1 "JetBrains Mono",monospace', color: 'rgba(var(--tf-ink-rgb),.4)', flex: 'none', whiteSpace: 'nowrap' },
+      });
+    }
+
+    // week aggregates (today ×  plausible multipliers)
+    const byCat = {};
+    entries.forEach((e) => { const c = act(e.act).cat; byCat[c] = (byCat[c] || 0) + (e.end - e.start); });
+    const weekMult = { sleep: 6.8, work: 5.4, family: 4.2, health: 5.0, learning: 4.6, social: 5.8, chores: 6.1, leisure: 3.4 };
+    const weekCatsRaw = Object.keys(byCat).map((c) => ({ c, min: Math.round(byCat[c] * (weekMult[c] || 5)) }))
+      .sort((a, b) => b.min - a.min);
+    const maxWeek = weekCatsRaw.length ? weekCatsRaw[0].min : 1;
+    const weekCategories = weekCatsRaw.map(({ c, min }) => ({
+      name: CATS[c].name, label: fmt(min),
+      barStyle: { width: Math.round((min / maxWeek) * 100) + '%', height: '100%', borderRadius: 99, background: 'linear-gradient(90deg,' + CATS[c].color + ',' + CATS[c].color + '77)' },
+    }));
+
+    const dayShape = [
+      { label: 'W', mult: 0.82 }, { label: 'T', mult: 0.9 }, { label: 'F', mult: 0.72 },
+      { label: 'S', mult: 0.55 }, { label: 'S', mult: 0.6 }, { label: 'M', mult: 0.95 }, { label: 'T', mult: 1 },
+    ];
+    const topThree = weekCatsRaw.slice(0, 3);
+    const weekDays = dayShape.map((d, i) => {
+      const isToday = i === dayShape.length - 1;
+      const h = Math.round(112 * d.mult);
+      return {
+        label: d.label,
+        labelStyle: { font: (isToday ? '700' : '400') + ' 10px/1 "JetBrains Mono",monospace', color: isToday ? 'var(--tf-ink)' : 'rgba(var(--tf-ink-rgb),.4)' },
+        colStyle: { width: '100%', height: h, borderRadius: 6, overflow: 'hidden', display: 'flex', flexDirection: 'column', border: isToday ? '1px solid rgba(var(--tf-surf-rgb),.35)' : '1px solid rgba(var(--tf-surf-rgb),.08)' },
+        segs: topThree.map((t, j) => ({
+          style: { flex: 3 - j, background: 'linear-gradient(180deg,' + CATS[t.c].color + 'dd,' + CATS[t.c].color + '66)', borderTop: j ? '1px solid rgba(4,7,14,.5)' : 'none' },
+        })),
+      };
+    });
+
+    // plant
+    const band = BANDS.slice().reverse().find((b) => s.points >= b.min) || BANDS[0];
+    const bandIndex = BANDS.indexOf(band);
+    const next = BANDS[bandIndex + 1] || null;
+    const stageProgress = next ? (s.points - band.min) / (band.max - band.min) : 1;
+    const stemH = 30 + bandIndex * 34 + stageProgress * 18;
+    const leafCount = Math.min(8, bandIndex * 2 + (stageProgress > 0.5 ? 1 : 0));
+    const leaves = [];
+    for (let i = 0; i < leafCount; i++) {
+      const left = i % 2 === 0;
+      const y = 34 + i * (stemH / (leafCount + 1)) * 0.9;
+      leaves.push({
+        style: {
+          position: 'absolute', left: '50%', bottom: y,
+          width: 46 - i * 2, height: 20,
+          transform: 'translateX(' + (left ? '-96%' : '-4%') + ') rotate(' + (left ? -22 : 22) + 'deg)',
+          transformOrigin: left ? '100% 50%' : '0% 50%',
+          borderRadius: left ? '100% 0 100% 0' : '0 100% 0 100%',
+          background: 'linear-gradient(' + (left ? 135 : 225) + 'deg, #7CE3A1, #2F8C5A)',
+          boxShadow: '0 4px 10px -6px rgba(var(--tf-shadow-rgb),.8)',
+        },
+      });
+    }
+
+    const focusMins = s.timer ? Math.max(1, Math.round(s.timer.elapsedSec / 60)) : 0;
+    const focusPct = s.timer ? Math.min(100, (s.timer.elapsedSec / 1500) * 100) : 0;
+    const clock = s.timer
+      ? String(Math.floor(s.timer.elapsedSec / 60)).padStart(2, '0') + ':' + String(s.timer.elapsedSec % 60).padStart(2, '0')
+      : '00:00';
+
+    const tabStyle = (on) => ({
+      height: 54, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5,
+      borderRadius: 18, cursor: 'pointer', border: on ? '1px solid rgba(56,189,248,.45)' : '1px solid transparent',
+      background: on ? 'linear-gradient(135deg,rgba(56,189,248,.22),rgba(37,99,235,.12))' : 'transparent',
+      color: on ? 'var(--tf-accent-ink)' : 'rgba(var(--tf-ink-rgb),.55)', fontFamily: 'Archivo,sans-serif',
+    });
+    const chipStyle = (on) => ({
+      height: 46, padding: '0 18px', borderRadius: 999, cursor: 'pointer',
+      border: on ? '1px solid rgba(127,211,194,.6)' : '1px solid rgba(var(--tf-surf-rgb),.14)',
+      background: on ? 'rgba(127,211,194,.18)' : 'rgba(var(--tf-surf-rgb),.05)',
+      color: on ? 'var(--tf-accent2-ink)' : 'rgba(var(--tf-ink-rgb),.75)', font: '600 14px/1 Archivo,sans-serif',
+      whiteSpace: 'nowrap', flex: 'none',
+    });
+    const pickStyle = (on) => ({
+      display: 'flex', alignItems: 'center', gap: 10, padding: '13px 13px', borderRadius: 18, cursor: 'pointer',
+      border: on ? '1px solid rgba(56,189,248,.5)' : '1px solid rgba(var(--tf-surf-rgb),.11)',
+      background: on ? 'rgba(56,189,248,.16)' : 'rgba(var(--tf-surf-rgb),.045)', textAlign: 'left', minWidth: 0,
+    });
+    const modeBtn = (on) => ({
+      height: 40, padding: '0 16px', borderRadius: 999, cursor: 'pointer',
+      border: on ? '1px solid rgba(56,189,248,.5)' : '1px solid rgba(var(--tf-surf-rgb),.14)',
+      background: on ? 'rgba(56,189,248,.16)' : 'rgba(var(--tf-surf-rgb),.04)',
+      color: on ? 'var(--tf-accent-ink)' : 'rgba(var(--tf-ink-rgb),.6)', font: '600 13px/1 Archivo,sans-serif',
+      whiteSpace: 'nowrap', flex: 'none',
+    });
+
+    const favIds = ['deep', 'family', 'move', 'read'];
+    const todayByAct = {};
+    entries.forEach((e) => { todayByAct[e.act] = (todayByAct[e.act] || 0) + (e.end - e.start); });
+
+    const accountedStr = fmt(totalMin);
+    const parts = accountedStr.split(' ');
+
+    return {
+      accentColor: accent,
+      isToday: s.tab === 'today', isInsights: s.tab === 'insights', isPlant: s.tab === 'plant',
+      hasEntries: entries.length > 0, noEntries: entries.length === 0,
+      weekdayLabel: dayInfo.weekday, dateLabel: dayInfo.date,
+      accountedBig: totalMin ? parts[0] : '0h', accountedSmall: totalMin && parts[1] ? parts[1] : '',
+      unaccountedLabel: fmt(unaccounted), mattersPct,
+      nowLabel: t(now),
+      flowRows: s.flowExpanded ? flowRows.slice().reverse() : flowRows.slice().reverse().slice(0, 4),
+      flowToggleLabel: s.flowExpanded ? 'Collapse to recent' : 'Expand the whole day · ' + flowRows.length + ' blocks',
+      flowMore: flowRows.length > 4,
+      toggleFlow: () => this.setState((p) => ({ flowExpanded: !p.flowExpanded })),
+      flowSubtitle: s.flowExpanded ? 'newest first · whole day' : 'newest first',
+      timeFormats: [
+        { label: '12-hour', on: s.hour12, onPick: () => this.setState({ hour12: true }) },
+        { label: '24-hour', on: !s.hour12, onPick: () => this.setState({ hour12: false }) },
+      ].map((x) => ({ label: x.label, style: chipStyle(x.on), onPick: x.onPick })),
+      zoneName: zone.label + ' · ' + zone.sub,
+      zones: TZS.map((z) => ({
+        label: z.label, sub: z.sub,
+        style: {
+          display: 'flex', alignItems: 'center', gap: 10, padding: '13px 15px', borderRadius: 18, cursor: 'pointer', width: '100%',
+          border: s.tz === z.id ? '1px solid ' + accent : '1px solid rgba(var(--tf-surf-rgb),.11)',
+          background: s.tz === z.id ? accent + '22' : 'rgba(var(--tf-surf-rgb),.045)', textAlign: 'left',
+        },
+        markStyle: {
+          width: 16, height: 16, borderRadius: '50%', flex: 'none',
+          border: s.tz === z.id ? '5px solid ' + accent : '1.5px solid rgba(var(--tf-surf-rgb),.28)',
+        },
+        onPick: () => this.setState({ tz: z.id }),
+      })),
+      legend: weekCatsRaw.slice(0, 4).map(({ c }) => ({
+        name: CATS[c].name.split(' & ')[0], label: fmt(byCat[c]),
+        dotStyle: { width: 8, height: 8, borderRadius: '50%', background: CATS[c].color, flex: 'none' },
+      })),
+      theme: s.theme, isDark: s.theme === 'dark',
+      logoRingStyle: {
+        width: 19, height: 19, borderRadius: '50%', flex: 'none', margin: '0 1px',
+        background: totalMin
+          ? 'conic-gradient(from -90deg,' + orbStops.join(',') + ')'
+          : 'conic-gradient(from -90deg, rgba(var(--tf-surf-rgb),.16) 0 100%)',
+        mask: 'radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px))',
+        WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px))',
+      },
+      orbRingStyle, orbInnerStyle, orbHalos, nowHandStyle, orbTicks, orbBig, orbSub, orbSentence,
+      onOrbTap: () => {
+        if (!orbTop.length) return;
+        const i = focusCat ? orbTop.indexOf(focusCat) : -1;
+        const next = i + 1 >= Math.min(4, orbTop.length) ? null : orbTop[i + 1];
+        this.setState({ orbFocus: next });
+      },
+      toggleTheme: () => this.setState((p) => ({ theme: p.theme === 'dark' ? 'light' : 'dark' })),
+      themeBtnLabel: s.theme === 'dark' ? 'Light mode' : 'Dark mode',
+      themeBtnStyle: modeBtn(false),
+      noteDraft: s.noteDraft,
+      onNoteDraft: (ev) => this.setState({ noteDraft: ev.target.value }),
+      onNoteKey: (ev) => { if (ev.key === 'Enter') this.addSessionNote(); },
+      addSessionNote: () => this.addSessionNote(),
+      sessionNotes: s.sessionNotes.map((n, i) => ({ id: i, time: t(n.min + tzOff), text: n.text })),
+      hasSessionNotes: s.sessionNotes.length > 0,
+      sessionNoteCount: s.sessionNotes.length === 1 ? '1 note this session' : s.sessionNotes.length + ' notes this session',
+      noteSheetOpen: !!s.noteTarget,
+      entryNoteDraft: s.entryNoteDraft,
+      onEntryNoteDraft: (ev) => this.setState({ entryNoteDraft: ev.target.value }),
+      onEntryNoteKey: (ev) => { if (ev.key === 'Enter') this.addEntryNote(); },
+      saveEntryNote: () => this.addEntryNote(),
+      closeNoteSheet: () => this.setState({ noteTarget: null, entryNoteDraft: '' }),
+      noteTargetName: s.noteTarget ? act((s.entries.find((e) => e.id === s.noteTarget) || { act: 'deep' }).act).name : '',
+      categoryRows: Object.keys(s.cats).map((k) => {
+        const c = s.cats[k];
+        const mins = byCat[k] || 0;
+        return {
+          name: c.name, emoji: c.emoji,
+          meta: (c.kind || 'flexible') + (mins ? ' · ' + fmt(mins) + ' today' : ' · nothing today'),
+          swatchStyle: { width: 30, height: 30, borderRadius: 10, flex: 'none', background: 'linear-gradient(150deg,' + c.color + ',' + c.color + '88)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15 },
+          onEdit: () => this.openCatEditor(k),
+        };
+      }),
+      newCategory: () => this.openCatEditor(null),
+      catEditorOpen: !!s.catEditor,
+      catEditorTitle: s.catEditor && s.catEditor.isNew ? 'New category' : 'Edit category',
+      catCanDelete: !!(s.catEditor && !s.catEditor.isNew),
+      catName: s.catEditor ? s.catEditor.name : '',
+      catEmoji: s.catEditor ? s.catEditor.emoji : '',
+      onCatName: (ev) => this.setState((p) => ({ catEditor: { ...p.catEditor, name: ev.target.value } })),
+      onCatEmoji: (ev) => this.setState((p) => ({ catEditor: { ...p.catEditor, emoji: ev.target.value.slice(0, 2) } })),
+      catColorOptions: CAT_COLORS.map((col) => ({
+        onPick: () => this.setState((p) => ({ catEditor: { ...p.catEditor, color: col } })),
+        style: {
+          width: 38, height: 38, borderRadius: 13, cursor: 'pointer', flex: 'none',
+          background: 'linear-gradient(150deg,' + col + ',' + col + '99)',
+          border: s.catEditor && s.catEditor.color === col ? '2px solid var(--tf-ink)' : '1px solid rgba(var(--tf-surf-rgb),.18)',
+          boxShadow: s.catEditor && s.catEditor.color === col ? '0 0 0 3px ' + col + '55' : 'none',
+        },
+      })),
+      catKindOptions: CAT_KINDS.map((k) => ({
+        label: k, style: chipStyle(!!s.catEditor && s.catEditor.kind === k),
+        onPick: () => this.setState((p) => ({ catEditor: { ...p.catEditor, kind: k } })),
+      })),
+      catPreviewStyle: {
+        display: 'flex', alignItems: 'center', gap: 11, padding: '13px 15px', borderRadius: 18,
+        background: 'linear-gradient(90deg,' + (s.catEditor ? s.catEditor.color : '#38BDF8') + '2e, transparent)',
+        border: '1px solid ' + (s.catEditor ? s.catEditor.color : '#38BDF8') + '66',
+      },
+      catPreviewName: s.catEditor ? (s.catEditor.name.trim() || 'Untitled category') : '',
+      saveCat: () => this.saveCatEditor(),
+      deleteCat: () => this.deleteCat(),
+      closeCatEditor: () => this.setState({ catEditor: null }),
+      isSettings: s.tab === 'settings',
+      tabSettingsStyle: tabStyle(s.tab === 'settings'),
+      goSettings: () => this.setState({ tab: 'settings' }),
+      toggles: [
+        { key: 'theme', name: 'Light mode', hint: 'Soft daylight palette, gradients keep drifting', on: s.theme === 'light' },
+        { key: 'sound', name: 'Chimes', hint: 'Soft tones on start, finish and closeout', on: s.sound },
+        { key: 'haptics', name: 'Haptics', hint: 'A light tap when time is committed', on: s.haptics },
+        { key: 'weekMonday', name: 'Week starts Monday', hint: 'Affects weekly plans and insights', on: s.weekMonday },
+      ].map((t) => ({
+        name: t.name, hint: t.hint,
+        onToggle: () => this.setState((p) => (t.key === 'theme' ? { theme: p.theme === 'dark' ? 'light' : 'dark' } : { [t.key]: !p[t.key] })),
+        trackStyle: {
+          width: 48, height: 29, borderRadius: 999, flex: 'none', position: 'relative',
+          background: t.on ? 'linear-gradient(135deg,' + accent + 'cc,' + accent + '77)' : 'rgba(var(--tf-surf-rgb),.12)',
+          border: '1px solid rgba(var(--tf-surf-rgb),.16)', transition: 'background .2s',
+        },
+        knobStyle: {
+          position: 'absolute', top: 2, left: t.on ? 21 : 2, width: 23, height: 23, borderRadius: '50%',
+          background: '#fff', boxShadow: '0 2px 6px rgba(var(--tf-shadow-rgb),.4)', transition: 'left .18s cubic-bezier(.22,1,.36,1)',
+        },
+      })),
+      focusLengths: [15, 25, 45, 90].map((m) => ({
+        label: m + ' min', style: chipStyle(s.focusLen === m), onPick: () => this.setState({ focusLen: m }),
+      })),
+      dataRows: [
+        { name: 'Back up as JSON', hint: 'Schema-validated on restore' },
+        { name: 'Export CSV', hint: 'Every block, every note' },
+        { name: 'Restore from file', hint: 'Replaces the current ledger' },
+        { name: 'Reset all data', hint: 'Irreversible — the plant returns to seed', danger: true },
+      ].map((r) => ({
+        name: r.name, hint: r.hint,
+        onPress: () => this.toast(r.name, r.danger ? 'A confirmation sheet would open here' : 'Handled locally on device'),
+        style: {
+          display: 'flex', alignItems: 'center', gap: 12, padding: '15px 16px', borderRadius: 20, cursor: 'pointer',
+          background: r.danger ? 'rgba(213,108,104,.10)' : 'rgba(var(--tf-surf-rgb),.045)',
+          border: r.danger ? '1px solid rgba(213,108,104,.35)' : '1px solid rgba(var(--tf-surf-rgb),.11)',
+          color: r.danger ? 'var(--tf-danger)' : 'var(--tf-ink)',
+        },
+      })),
+      timerActive: !!s.timer,
+      timerActivityName: s.timer ? act(s.timer.act).name : '',
+      timerStartLabel: s.timer ? t(s.timer.startMin + tzOff) : '',
+      timerStatusLabel: s.timer ? (s.timer.paused ? 'Paused' : 'Running now') : '',
+      timerClock: clock,
+      pauseLabel: s.timer && s.timer.paused ? 'Resume' : 'Pause',
+      focusOpen: s.focusOpen && !!s.timer,
+      focusPoints: pointsForFocus(focusMins),
+      focusTargetLabel: 'target 25:00 · ' + Math.round(focusPct) + '%',
+      focusLine: s.timer && s.timer.paused ? 'Paused time is never counted.' : 'Nothing else is being asked of you right now.',
+      focusRingStyle: {
+        position: 'absolute', inset: 22, borderRadius: '50%',
+        background: 'conic-gradient(' + accent + ' ' + focusPct + '%, rgba(var(--tf-surf-rgb),0.07) 0)',
+        mask: 'radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px))',
+        WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px))',
+      },
+      ringStyle: {
+        position: 'absolute', inset: 0, borderRadius: '50%',
+        background: 'conic-gradient(' + accent + ' ' + mattersPct + '%, rgba(var(--tf-surf-rgb),0.08) 0)',
+      },
+      favorites: favIds.map((id) => ({
+        emoji: cat(id).emoji, name: act(id).name,
+        todayLabel: todayByAct[id] ? fmt(todayByAct[id]) + ' today' : 'not yet today',
+        style: pickStyle(false),
+        onPick: () => this.setState({ logOpen: true, logAct: id, logDur: 30 }),
+      })),
+      ledger: entries.slice().reverse().map((e) => ({
+        startLabel: t(e.start), name: act(e.act).name, categoryName: cat(e.act).name,
+        durationLabel: fmt(e.end - e.start),
+        hasNote: !!(e.notes && e.notes.length),
+        notes: (e.notes || []).map((n) => ({ time: t(n.min + tzOff), text: n.text })),
+        noteCountLabel: (e.notes && e.notes.length) ? e.notes.length + (e.notes.length === 1 ? ' note' : ' notes') : 'add a note',
+        onAddNote: () => this.setState({ noteTarget: e.base || e.id, entryNoteDraft: '' }),
+        dotStyle: { width: 10, height: 10, borderRadius: '50%', flex: 'none', marginTop: 5, background: cat(e.act).color, boxShadow: '0 0 12px ' + cat(e.act).color + '88' },
+      })),
+      weekCategories, weekDays, zoneNote: 'All charts keyed to ' + zone.label + ' · ' + (s.hour12 ? '12-hour' : '24-hour'),
+      stars: STARS.map(([l, t, r, o]) => ({
+        style: { position: 'absolute', left: l + '%', top: t + '%', width: r * 2, height: r * 2, borderRadius: '50%', background: 'var(--tf-star)', opacity: o },
+      })),
+      haloStyle: { position: 'absolute', left: '50%', bottom: 40, transform: 'translateX(-50%)', width: 230, height: 230, borderRadius: '50%', background: 'radial-gradient(circle, rgba(127,211,194,.28), transparent 66%)' },
+      plantStageStyle: { position: 'absolute', left: '50%', bottom: 26, transform: 'translateX(-50%)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' },
+      stemStyle: { position: 'absolute', left: '50%', bottom: 22, transform: 'translateX(-50%)', width: 7, height: stemH, borderRadius: 6, background: 'linear-gradient(180deg,#7CE3A1,#2F6B4A)' },
+      leaves, hasCanopy: bandIndex >= 3,
+      stageName: band.name, stageHaiku: band.haiku,
+      nextStageName: next ? next.name : 'full canopy',
+      pointsToNext: next ? Math.max(0, Math.ceil(next.min - s.points)) : 0,
+      growthBarStyle: { width: Math.round(stageProgress * 100) + '%', height: '100%', borderRadius: 99, background: 'linear-gradient(90deg,#7FD3C2,#34D399)' },
+      todayPoints: s.todayPoints, dailyCap: DAILY_CAP,
+      dayCount: s.mode === 'empty' ? 1 : 26, seasonLabel: 'late summer',
+      waterEvents: s.water.map((ev) => ({
+        id: ev.id, label: ev.label, points: ev.points,
+        when: ev.whenMin != null ? t(ev.whenMin + tzOff) : ev.whenLabel,
+      })),
+      logOpen: s.logOpen,
+      logTitle: s.logAct ? 'How long?' : 'What were you doing?',
+      logStepPick: s.logOpen && !s.logAct, logStepDuration: s.logOpen && !!s.logAct,
+      allActivities: ACTS.map((a) => ({
+        emoji: CATS[a.cat].emoji, name: a.name, categoryName: CATS[a.cat].name,
+        style: pickStyle(s.logAct === a.id),
+        onPick: () => this.setState({ logAct: a.id }),
+      })),
+      pickedEmoji: s.logAct ? cat(s.logAct).emoji : '', pickedName: s.logAct ? act(s.logAct).name : '',
+      pickedRange: t(now - s.logDur) + ' – ' + t(now) + ' · ends now',
+      durationChips: [15, 30, 45, 60, 90].map((d) => ({
+        label: fmt(d), style: chipStyle(s.logDur === d), onPick: () => this.setState({ logDur: d }),
+      })),
+      pendingPoints: pointsForTimeLog(s.logDur),
+      toastVisible: !!s.toast, toastTitle: s.toast ? s.toast.title : '', toastSub: s.toast ? s.toast.sub : '',
+      tabTodayStyle: tabStyle(s.tab === 'today'), tabInsightsStyle: tabStyle(s.tab === 'insights'), tabPlantStyle: tabStyle(s.tab === 'plant'),
+      btnFilled: modeBtn(s.mode === 'filled'), btnEmpty: modeBtn(s.mode === 'empty'),
+      goToday: () => this.setState({ tab: 'today' }),
+      goInsights: () => this.setState({ tab: 'insights' }),
+      goPlant: () => this.setState({ tab: 'plant' }),
+      openLog: () => this.setState({ logOpen: true, logAct: null, logDur: 30 }),
+      closeLog: () => this.setState({ logOpen: false, logAct: null }),
+      backToPick: () => this.setState({ logAct: null }),
+      saveLog: () => this.saveLog(),
+      startFromSheet: () => this.startTimer(s.logAct),
+      openFocus: () => this.setState({ focusOpen: true }),
+      closeFocus: () => this.setState({ focusOpen: false }),
+      togglePause: () => this.setState((p) => ({ timer: { ...p.timer, paused: !p.timer.paused } })),
+      finishTimer: () => this.finishTimer(),
+      discardTimer: () => { this.setState({ timer: null, focusOpen: false }); this.toast('Session discarded', 'Nothing was written to the ledger'); },
+      tapPlant: () => this.toast('It sways, politely', 'Growth comes from logged time — not taps'),
+      setFilled: () => this.setMode('filled'),
+      setEmpty: () => this.setMode('empty'),
+    };
+  }
+}
+</script>
+</body>
+</html>
