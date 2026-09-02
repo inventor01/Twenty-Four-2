@@ -418,11 +418,11 @@ function AppContent() {
   }, [todayEntries]);
 
   return (
-    <div className="w-full min-h-screen bg-[var(--tf-bg)] text-[var(--tf-ink)] flex flex-col items-center justify-start transition-colors duration-300 antialiased font-sans">
+    <div className="w-full text-[var(--tf-ink)] flex flex-col items-center justify-start transition-colors duration-300 antialiased font-sans" style={{ minHeight: '100dvh' }}>
       {/* Fixed, clipped background layer — does not add scroll height */}
       <div
         aria-hidden
-        className="fixed inset-y-0 left-1/2 -translate-x-1/2 w-full max-w-[402px] overflow-hidden pointer-events-none"
+        className="fixed inset-0 w-full overflow-hidden pointer-events-none"
         style={{
           zIndex: 0,
           background: [
@@ -490,7 +490,7 @@ function AppContent() {
       </div>
 
       {/* Content column */}
-      <div className="relative z-10 w-full max-w-[402px] min-h-screen flex flex-col overflow-x-hidden">
+      <div className="relative z-10 w-full max-w-[402px] flex flex-col">
         {/* Wordmark — non-sticky, centred, on every screen */}
         <div
           className="relative flex items-center justify-center cursor-pointer select-none"
@@ -543,7 +543,7 @@ function AppContent() {
         )}
 
         {/* Main View Router */}
-        <div className="tf-scroll relative flex-1" style={{ padding: '0 20px 132px' }}>
+        <div className="relative" style={{ padding: '0 20px 132px' }}>
           {activeTab === 'today' && (
             <div className="flex flex-col gap-5">
               {/* Date Selector Header Bar */}

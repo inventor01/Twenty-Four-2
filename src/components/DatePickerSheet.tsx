@@ -76,7 +76,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[420px] rounded-t-[34px] p-5 flex flex-col gap-4.5 tf-sheet max-h-[90vh] overflow-y-auto tf-scroll shadow-2xl"
+        className="w-full max-w-[402px] rounded-t-[34px] p-5 flex flex-col gap-4.5 tf-sheet max-h-[90vh] overflow-y-auto tf-scroll shadow-2xl"
         style={{
           background: 'linear-gradient(180deg, var(--tf-sheet1) 0%, var(--tf-sheet2) 100%)',
           borderTop: '1px solid rgba(var(--tf-surf-rgb), 0.16)',
