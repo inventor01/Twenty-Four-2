@@ -281,7 +281,7 @@ export const ChronologicalFlow: React.FC<ChronologicalFlowProps> = ({
       {flowItems.length > 4 && (
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full h-[42px] rounded-[14px] flex items-center justify-center transition-all hover:bg-white/10 active:scale-[0.99] cursor-pointer mt-1 select-none"
+          className="w-full h-[42px] rounded-[14px] flex items-center justify-center transition-all hover:bg-[rgba(var(--tf-surf-rgb),0.1)] active:scale-[0.99] cursor-pointer mt-1 select-none"
           style={{
             background: 'rgba(var(--tf-surf-rgb), 0.05)',
             border: '1px solid rgba(var(--tf-surf-rgb), 0.14)',

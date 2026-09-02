@@ -78,6 +78,13 @@ Test on a notched device or simulator, both orientations if supported.
 
 ## 6. Theme
 
+**Light is now the default.** Test light first, then toggle.
+
+- [ ] App opens in light mode on a fresh load, with no dark flash before paint
+- [ ] Accent buttons (＋, Save, Log) have readable text — light mode uses white on dark teal
+- [ ] Card surfaces and borders are visible in light mode (not white-on-white)
+- [ ] Colour-swatch selection ring is visible in light mode
+- [ ] Auth and Onboarding modals still render dark — this is intentional, confirm it looks acceptable
 - [ ] Light mode: every screen readable, no white-on-white or black-on-black
 - [ ] Dark mode: same
 - [ ] Toggling theme doesn't require reload and doesn't flash

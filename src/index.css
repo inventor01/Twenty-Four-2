@@ -10,7 +10,7 @@
   body {
     margin: 0;
     font-family: var(--font-archivo);
-    background: #0a0d14;
+    background: #eef1f8;
     color: var(--tf-ink);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,6 +22,11 @@
   html {
     overflow-x: clip;
     -webkit-text-size-adjust: 100%;
+    color-scheme: light;
+  }
+
+  html[data-tf-theme="dark"] {
+    color-scheme: dark;
   }
 }
 
@@ -33,6 +38,7 @@
   --tf-surf-rgb: 255, 255, 255;
   --tf-shadow-rgb: 0, 0, 0;
   --tf-accent-ink: #7dd3fc;
+  --tf-on-accent: #05070b;
   --tf-accent2-ink: #a8e5da;
   --tf-danger: #f0a9a6;
   --tf-page: #0a0d14;
@@ -65,6 +71,7 @@
   --tf-surf-rgb: 32, 52, 88;
   --tf-shadow-rgb: 130, 148, 178;
   --tf-accent-ink: #0e7490;
+  --tf-on-accent: #ffffff;
   --tf-accent2-ink: #0f766e;
   --tf-danger: #b4534f;
   --tf-page: #eef1f8;

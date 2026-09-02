@@ -187,13 +187,13 @@ export const LedgerSection: React.FC<LedgerSectionProps> = ({
       )}
 
       {entries.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-8 rounded-[26px] border border-dashed text-center gap-3 mt-1 border-white/15 bg-white/[0.03]">
+        <div className="flex flex-col items-center justify-center p-8 rounded-[26px] border border-dashed text-center gap-3 mt-1 border-[rgba(var(--tf-surf-rgb),0.15)] bg-white/[0.03]">
           <span className="text-[15px] font-bold">Nothing on the ledger yet.</span>
           <p className="max-w-[260px] text-[17px] italic opacity-70" style={{ fontFamily: 'var(--font-serif)' }}>An empty ring is still a whole day.</p>
           <button type="button" onClick={onOpenLogModal} className="tf-primary-pill">Log your first block</button>
         </div>
       ) : visibleEntries.length === 0 ? (
-        <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-6 text-center text-sm opacity-65">No entries match this filter.</div>
+        <div className="rounded-[22px] border border-[rgba(var(--tf-surf-rgb),0.1)] bg-white/[0.03] p-6 text-center text-sm opacity-65">No entries match this filter.</div>
       ) : (
         <div className="flex flex-col">
           {visibleEntries.map((entry, index) => {
@@ -293,7 +293,7 @@ export const LedgerSection: React.FC<LedgerSectionProps> = ({
       {editingEntry && (
         <div className="fixed inset-0 z-[120] flex items-end justify-center bg-black/55 backdrop-blur-sm" onClick={() => setEditingEntry(null)}>
           <div className="tf-entry-editor tf-sheet" onClick={(event) => event.stopPropagation()}>
-            <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-white/20" />
+            <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-[rgba(var(--tf-surf-rgb),0.2)]" />
             <div className="flex items-center justify-between">
               <div>
                 <p className="tf-ledger-eyebrow">EDIT ENTRY</p>

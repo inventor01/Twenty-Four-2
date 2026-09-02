@@ -109,7 +109,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
         }}
       >
         {/* Handle bar */}
-        <div className="w-10 h-1 rounded-full bg-white/20 mx-auto -mt-1 mb-1" />
+        <div className="w-10 h-1 rounded-full bg-[rgba(var(--tf-surf-rgb),0.2)] mx-auto -mt-1 mb-1" />
 
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -118,7 +118,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
           </h3>
           <button
             onClick={onClose}
-            className="text-xs px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[var(--tf-ink)] opacity-70 cursor-pointer"
+            className="text-xs px-2.5 py-1 rounded-full bg-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.2)] text-[var(--tf-ink)] opacity-70 cursor-pointer"
           >
             ✕
           </button>
@@ -137,7 +137,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
                     <button
                       key={act.id}
                       onClick={() => setSelectedActivity(act)}
-                      className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-left transition-all cursor-pointer"
+                      className="flex items-center gap-2.5 p-3 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] hover:border-[rgba(var(--tf-surf-rgb),0.2)] text-left transition-all cursor-pointer"
                     >
                       <span className="text-lg">{cat?.emoji || '⏳'}</span>
                       <div className="flex flex-col min-w-0">
@@ -153,7 +153,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
           /* Step 2: Configure Timing & Duration */
           <div className="flex flex-col gap-4">
             {/* Selected activity card with change button */}
-            <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)]">
               <div className="flex items-center gap-2.5 min-w-0">
                 <span className="text-2xl">{activeCategory?.emoji || '⏳'}</span>
                 <div className="flex flex-col min-w-0">
@@ -170,12 +170,12 @@ export const LogSheet: React.FC<LogSheetProps> = ({
             </div>
 
             {/* Timing Mode Segmented Tabs: Just Finished vs Custom Time / Plan */}
-            <div className="flex p-1 rounded-xl bg-white/5 border border-white/10">
+            <div className="flex p-1 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)]">
               <button
                 onClick={() => setEntryTimingMode('just-finished')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   entryTimingMode === 'just-finished'
-                    ? 'bg-[var(--tf-accent-ink)] text-black font-bold shadow-sm'
+                    ? 'bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] font-bold shadow-sm'
                     : 'text-[var(--tf-ink)] opacity-60 hover:opacity-100'
                 }`}
               >
@@ -185,7 +185,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
                 onClick={() => setEntryTimingMode('custom-time')}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   entryTimingMode === 'custom-time'
-                    ? 'bg-[var(--tf-accent-ink)] text-black font-bold shadow-sm'
+                    ? 'bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] font-bold shadow-sm'
                     : 'text-[var(--tf-ink)] opacity-60 hover:opacity-100'
                 }`}
               >
@@ -210,8 +210,8 @@ export const LogSheet: React.FC<LogSheetProps> = ({
                       onClick={() => setDurationMins(preset.mins)}
                       className={`py-2 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
                         durationMins === preset.mins
-                          ? 'bg-[var(--tf-accent-ink)] text-black font-bold shadow-md'
-                          : 'bg-white/5 border border-white/10 opacity-70 hover:opacity-100'
+                          ? 'bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] font-bold shadow-md'
+                          : 'bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] opacity-70 hover:opacity-100'
                       }`}
                     >
                       {preset.label}
@@ -221,14 +221,14 @@ export const LogSheet: React.FC<LogSheetProps> = ({
               </div>
             ) : (
               /* Custom Date & Start/End Times */
-              <div className="flex flex-col gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10">
+              <div className="flex flex-col gap-3 p-3.5 rounded-2xl bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)]">
                 <div className="flex flex-col gap-1">
                   <span className="text-[11px] font-mono opacity-60 uppercase">Date</span>
                   <input
                     type="date"
                     value={entryDateStr}
                     onChange={(e) => setEntryDateStr(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl text-xs bg-black/20 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] font-mono"
+                    className="w-full px-3 py-2 rounded-xl text-xs bg-black/20 border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] font-mono"
                   />
                 </div>
 
@@ -239,7 +239,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
                       type="time"
                       value={startTimeStr}
                       onChange={(e) => setStartTimeStr(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl text-xs bg-black/20 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] font-mono"
+                      className="w-full px-3 py-2 rounded-xl text-xs bg-black/20 border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] font-mono"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
@@ -248,7 +248,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
                       type="time"
                       value={endTimeStr}
                       onChange={(e) => setEndTimeStr(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl text-xs bg-black/20 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] font-mono"
+                      className="w-full px-3 py-2 rounded-xl text-xs bg-black/20 border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] font-mono"
                     />
                   </div>
                 </div>
@@ -263,7 +263,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
                 placeholder="What made this block meaningful?"
-                className="tf-input w-full px-3 py-2.5 rounded-xl text-xs bg-white/5 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)]"
+                className="tf-input w-full px-3 py-2.5 rounded-xl text-xs bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)]"
               />
             </div>
 
@@ -271,7 +271,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
             <div className="flex flex-col gap-2 mt-1">
               <button
                 onClick={handleSave}
-                className="w-full py-3 rounded-2xl font-bold text-sm bg-[var(--tf-accent-ink)] text-black shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-2xl font-bold text-sm bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
               >
                 <span>{entryTimingMode === 'custom-time' ? 'Save Scheduled Block' : 'Save Block'}</span>
                 <span className="text-xs font-mono opacity-70">· +{pointsEarned} plant pts</span>
@@ -280,7 +280,7 @@ export const LogSheet: React.FC<LogSheetProps> = ({
               {entryTimingMode === 'just-finished' && (
                 <button
                   onClick={handleStart}
-                  className="w-full py-2.5 rounded-2xl font-medium text-xs bg-white/10 hover:bg-white/15 text-[var(--tf-ink)] transition-all cursor-pointer text-center"
+                  className="w-full py-2.5 rounded-2xl font-medium text-xs bg-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.15)] text-[var(--tf-ink)] transition-all cursor-pointer text-center"
                 >
                   ▶ Or start live timer for this
                 </button>

@@ -89,7 +89,7 @@ const tabStyle = (on: boolean): React.CSSProperties => ({
 function AppContent() {
   const { user, profile, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<NavTab>('today');
-  const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
+  const [themeMode, setThemeMode] = useState<'dark' | 'light'>('light');
 
   // Store data states
   const [categories, setCategories] = useState<Category[]>([]);
@@ -547,11 +547,11 @@ function AppContent() {
           {activeTab === 'today' && (
             <div className="flex flex-col gap-5">
               {/* Date Selector Header Bar */}
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
+              <div className="flex items-center justify-between p-3 rounded-2xl bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)]">
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setSelectedDateKey((k) => shiftDateKey(k, -1))}
-                    className="w-7 h-7 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-xs cursor-pointer opacity-70 hover:opacity-100"
+                    className="w-7 h-7 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] flex items-center justify-center text-xs cursor-pointer opacity-70 hover:opacity-100"
                     title="Previous Day"
                   >
                     ◀
@@ -569,7 +569,7 @@ function AppContent() {
                   </div>
                   <button
                     onClick={() => setSelectedDateKey((k) => shiftDateKey(k, 1))}
-                    className="w-7 h-7 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-xs cursor-pointer opacity-70 hover:opacity-100"
+                    className="w-7 h-7 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] flex items-center justify-center text-xs cursor-pointer opacity-70 hover:opacity-100"
                     title="Next Day"
                   >
                     ▶
@@ -579,7 +579,7 @@ function AppContent() {
                 {selectedDateKey !== todayKey && (
                   <button
                     onClick={() => setSelectedDateKey(todayKey)}
-                    className="text-[10.5px] font-mono font-semibold px-2 py-1 rounded-lg bg-[var(--tf-accent-ink)] text-black cursor-pointer shadow-sm"
+                    className="text-[10.5px] font-mono font-semibold px-2 py-1 rounded-lg bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] cursor-pointer shadow-sm"
                   >
                     Jump to Today
                   </button>
@@ -839,7 +839,7 @@ function AppContent() {
 
         {/* Toast notification pill */}
         {toastMessage && (
-          <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[min(354px,calc(100vw-48px))] z-[130] py-2 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-center text-xs text-[var(--tf-ink)] shadow-lg tf-rise">
+          <div className="fixed top-6 left-1/2 -translate-x-1/2 w-[min(354px,calc(100vw-48px))] z-[130] py-2 px-3 rounded-full bg-[rgba(var(--tf-surf-rgb),0.1)] backdrop-blur-md border border-[rgba(var(--tf-surf-rgb),0.15)] text-center text-xs text-[var(--tf-ink)] shadow-lg tf-rise">
             {toastMessage}
           </div>
         )}

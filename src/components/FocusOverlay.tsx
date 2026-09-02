@@ -274,7 +274,7 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
         {/* Finish · waters the plant +N button */}
         <button
           onClick={handleFinish}
-          className="w-full h-[54px] rounded-full text-white font-bold transition-all hover:brightness-110 active:scale-[0.98] cursor-pointer flex items-center justify-center shadow-lg"
+          className="w-full h-[54px] rounded-full text-[var(--tf-ink)] font-bold transition-all hover:brightness-110 active:scale-[0.98] cursor-pointer flex items-center justify-center shadow-lg"
           style={{
             font: '700 15.5px/1 Archivo, sans-serif',
             background: 'linear-gradient(135deg, rgba(127,211,194, 0.36), rgba(59,142,138, 0.24))',
@@ -289,7 +289,7 @@ export const FocusOverlay: React.FC<FocusOverlayProps> = ({
         <div className="flex items-center gap-2.5 w-full">
           <button
             onClick={isPaused ? onResume : onPause}
-            className="flex-1 h-[48px] rounded-full transition-all hover:bg-white/10 active:scale-[0.98] cursor-pointer flex items-center justify-center"
+            className="flex-1 h-[48px] rounded-full transition-all hover:bg-[rgba(var(--tf-surf-rgb),0.1)] active:scale-[0.98] cursor-pointer flex items-center justify-center"
             style={{
               font: '600 14px/1 Archivo, sans-serif',
               background: 'rgba(var(--tf-surf-rgb), 0.06)',

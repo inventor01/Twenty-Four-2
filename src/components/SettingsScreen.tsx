@@ -131,10 +131,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
                 {profile?.displayName?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || 'P'}
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-sm font-bold text-white truncate">
+                <span className="text-sm font-bold text-[var(--tf-ink)] truncate">
                   {profile?.displayName || 'Practitioner'}
                 </span>
-                <span className="text-xs font-mono text-white/50 truncate">{user.email}</span>
+                <span className="text-xs font-mono text-[rgba(var(--tf-ink-rgb),0.5)] truncate">{user.email}</span>
                 {profile?.primaryFocus && (
                   <span className="text-[11px] text-[#2DD4BF] mt-0.5">
                     Focus: {profile.primaryFocus}
@@ -146,7 +146,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
             <div className="grid grid-cols-2 gap-2 mt-1">
               <button
                 onClick={onOpenOnboarding}
-                className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-semibold text-white cursor-pointer text-center"
+                className="py-2 px-3 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.15)] border border-[rgba(var(--tf-surf-rgb),0.15)] text-xs font-semibold text-[var(--tf-ink)] cursor-pointer text-center"
               >
                 Retake Questionnaire
               </button>
@@ -160,12 +160,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           </div>
         ) : (
           <div className="flex flex-col gap-2.5">
-            <p className="text-xs text-white/70 leading-relaxed">
+            <p className="text-xs text-[rgba(var(--tf-ink-rgb),0.7)] leading-relaxed">
               Create your profile or sign in to synchronize your 24-hour balance ledger and daily reflections across devices with private data isolation.
             </p>
             <button
               onClick={onOpenAuth}
-              className="w-full py-3 rounded-xl font-bold text-xs bg-[#38BDF8] text-black shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl font-bold text-xs bg-[#38BDF8] text-[var(--tf-on-accent)] shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               Sign In / Create Profile ✦
             </button>
@@ -194,7 +194,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <button
             onClick={onToggleTheme}
             className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-300 relative cursor-pointer ${
-              isLightMode ? 'bg-[var(--tf-accent-ink)]' : 'bg-white/20'
+              isLightMode ? 'bg-[var(--tf-accent-ink)]' : 'bg-[rgba(var(--tf-surf-rgb),0.2)]'
             }`}
           >
             <div
@@ -214,7 +214,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <button
             onClick={() => onUpdateSettings({ soundEnabled: !settings.soundEnabled })}
             className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-300 relative cursor-pointer ${
-              settings.soundEnabled ? 'bg-[var(--tf-accent-ink)]' : 'bg-white/20'
+              settings.soundEnabled ? 'bg-[var(--tf-accent-ink)]' : 'bg-[rgba(var(--tf-surf-rgb),0.2)]'
             }`}
           >
             <div
@@ -234,7 +234,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <button
             onClick={() => onUpdateSettings({ hapticsEnabled: !settings.hapticsEnabled })}
             className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-300 relative cursor-pointer ${
-              settings.hapticsEnabled ? 'bg-[var(--tf-accent-ink)]' : 'bg-white/20'
+              settings.hapticsEnabled ? 'bg-[var(--tf-accent-ink)]' : 'bg-[rgba(var(--tf-surf-rgb),0.2)]'
             }`}
           >
             <div
@@ -254,7 +254,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <button
             onClick={() => setWeekStartsMonday(!weekStartsMonday)}
             className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-300 relative cursor-pointer ${
-              weekStartsMonday ? 'bg-[var(--tf-accent-ink)]' : 'bg-white/20'
+              weekStartsMonday ? 'bg-[var(--tf-accent-ink)]' : 'bg-[rgba(var(--tf-surf-rgb),0.2)]'
             }`}
           >
             <div
@@ -281,12 +281,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         {/* 12h vs 24h format */}
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-[var(--tf-ink)]">Clock Display</span>
-          <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10">
+          <div className="flex items-center gap-1 bg-[rgba(var(--tf-surf-rgb),0.05)] p-1 rounded-xl border border-[rgba(var(--tf-surf-rgb),0.1)]">
             <button
               onClick={() => onUpdateSettings({ hourFormat: 12 })}
               className={`px-3 py-1 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                 settings.hourFormat === 12
-                  ? 'bg-[var(--tf-accent-ink)] text-black font-bold'
+                  ? 'bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] font-bold'
                   : 'opacity-60 text-[var(--tf-ink)]'
               }`}
             >
@@ -296,7 +296,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
               onClick={() => onUpdateSettings({ hourFormat: 24 })}
               className={`px-3 py-1 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                 settings.hourFormat === 24
-                  ? 'bg-[var(--tf-accent-ink)] text-black font-bold'
+                  ? 'bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] font-bold'
                   : 'opacity-60 text-[var(--tf-ink)]'
               }`}
             >
@@ -311,10 +311,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
           <select
             value={settings.timeZone || 'America/New_York'}
             onChange={(e) => onUpdateSettings({ timeZone: e.target.value })}
-            className="w-full px-3 py-2 rounded-xl text-xs bg-white/5 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] cursor-pointer"
+            className="w-full px-3 py-2 rounded-xl text-xs bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] cursor-pointer"
           >
             {TIME_ZONES.map((tz) => (
-              <option key={tz.id} value={tz.id} className="bg-neutral-900 text-white">
+              <option key={tz.id} value={tz.id} className="bg-neutral-900 text-[var(--tf-ink)]">
                 {tz.label}
               </option>
             ))}
@@ -331,8 +331,8 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
                 onClick={() => onUpdateSettings({ defaultFocusMinutes: mins })}
                 className={`py-1.5 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
                   settings.defaultFocusMinutes === mins
-                    ? 'bg-[var(--tf-accent-ink)] text-black font-bold shadow-sm'
-                    : 'bg-white/5 border border-white/10 opacity-70 hover:opacity-100'
+                    ? 'bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] font-bold shadow-sm'
+                    : 'bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] opacity-70 hover:opacity-100'
                 }`}
               >
                 {mins}m
@@ -367,13 +367,13 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
             <div
               key={cat.id}
               onClick={() => onOpenCategoryEditor(cat)}
-              className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all cursor-pointer"
+              className="flex items-center justify-between p-2.5 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] transition-all cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <span className="text-sm">{cat.emoji}</span>
                 <span className="text-xs font-medium text-[var(--tf-ink)]">{cat.name}</span>
               </div>
-              <span className="text-[10px] uppercase font-mono opacity-40 px-1.5 py-0.5 rounded bg-white/5">
+              <span className="text-[10px] uppercase font-mono opacity-40 px-1.5 py-0.5 rounded bg-[rgba(var(--tf-surf-rgb),0.05)]">
                 {cat.kind}
               </span>
             </div>
@@ -413,7 +413,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
             {onFirstRun && (
               <button
                 onClick={onFirstRun}
-                className="py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center select-none"
+                className="py-2 px-3 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center select-none"
               >
                 Clear to First Run
               </button>
@@ -440,20 +440,20 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({
         <div className="grid grid-cols-2 gap-2 mt-1">
           <button
             onClick={handleExportJson}
-            className="py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center"
+            className="py-2 px-3 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center"
           >
             Back up as JSON
           </button>
           <button
             onClick={handleExportCsv}
-            className="py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center"
+            className="py-2 px-3 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center"
           >
             Export CSV
           </button>
         </div>
 
         <div className="flex items-center gap-2 mt-1">
-          <label className="flex-1 py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center">
+          <label className="flex-1 py-2 px-3 rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-xs font-medium text-[var(--tf-ink)] cursor-pointer text-center">
             Restore from file
             <input type="file" accept=".json" onChange={handleFileInput} className="hidden" />
           </label>

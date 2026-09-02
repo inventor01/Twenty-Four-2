@@ -86,7 +86,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Grabber bar */}
-        <div className="w-11 h-1.5 rounded-full bg-white/20 mx-auto -mt-1 mb-1" />
+        <div className="w-11 h-1.5 rounded-full bg-[rgba(var(--tf-surf-rgb),0.2)] mx-auto -mt-1 mb-1" />
 
         {/* Sheet Top Header */}
         <div className="flex items-center justify-between">
@@ -114,7 +114,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-white/10 text-xs opacity-70 hover:opacity-100 transition-all cursor-pointer"
+            className="p-2 rounded-full hover:bg-[rgba(var(--tf-surf-rgb),0.1)] text-xs opacity-70 hover:opacity-100 transition-all cursor-pointer"
             style={{ color: 'var(--tf-ink)' }}
           >
             ✕
@@ -131,7 +131,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
         >
           <button
             onClick={handlePrevDay}
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all cursor-pointer select-none"
+            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[rgba(var(--tf-surf-rgb),0.1)] active:scale-90 transition-all cursor-pointer select-none"
             style={{
               background: 'rgba(var(--tf-surf-rgb), 0.06)',
               border: '1px solid rgba(var(--tf-surf-rgb), 0.10)',
@@ -184,7 +184,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
 
           <button
             onClick={handleNextDay}
-            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 active:scale-90 transition-all cursor-pointer select-none"
+            className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[rgba(var(--tf-surf-rgb),0.1)] active:scale-90 transition-all cursor-pointer select-none"
             style={{
               background: 'rgba(var(--tf-surf-rgb), 0.06)',
               border: '1px solid rgba(var(--tf-surf-rgb), 0.10)',
@@ -285,7 +285,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
             {draftDateKey !== todayKey && (
               <button
                 onClick={() => setDraftDateKey(todayKey)}
-                className="px-2.5 py-1 rounded-full text-xs font-semibold hover:bg-white/10 transition-all cursor-pointer"
+                className="px-2.5 py-1 rounded-full text-xs font-semibold hover:bg-[rgba(var(--tf-surf-rgb),0.1)] transition-all cursor-pointer"
                 style={{
                   background: 'rgba(56,189,248,.15)',
                   color: 'var(--tf-accent-ink)',
@@ -302,7 +302,7 @@ export const DatePickerSheet: React.FC<DatePickerSheetProps> = ({
         <div className="flex items-center gap-2.5 mt-2">
           <button
             onClick={() => handleApply(draftDateKey)}
-            className="flex-1 h-[50px] rounded-full text-white font-bold transition-all hover:brightness-110 active:scale-[0.98] cursor-pointer flex items-center justify-center shadow-lg"
+            className="flex-1 h-[50px] rounded-full text-[var(--tf-ink)] font-bold transition-all hover:brightness-110 active:scale-[0.98] cursor-pointer flex items-center justify-center shadow-lg"
             style={{
               font: '700 15px/1 Archivo, sans-serif',
               background: 'linear-gradient(135deg, rgba(56,189,248, 0.8), rgba(37,99,235, 0.8))',

@@ -31,7 +31,7 @@ export const AddNoteSheet: React.FC<AddNoteSheetProps> = ({
           color: 'var(--tf-ink)',
         }}
       >
-        <div className="w-10 h-1 rounded-full bg-white/20 mx-auto -mt-1 mb-1" />
+        <div className="w-10 h-1 rounded-full bg-[rgba(var(--tf-surf-rgb),0.2)] mx-auto -mt-1 mb-1" />
 
         <div className="flex items-center justify-between">
           <div>
@@ -44,7 +44,7 @@ export const AddNoteSheet: React.FC<AddNoteSheetProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-xs px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[var(--tf-ink)] opacity-70 cursor-pointer"
+            className="text-xs px-2.5 py-1 rounded-full bg-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.2)] text-[var(--tf-ink)] opacity-70 cursor-pointer"
           >
             ✕
           </button>
@@ -58,12 +58,12 @@ export const AddNoteSheet: React.FC<AddNoteSheetProps> = ({
             placeholder="Record what was notable, insightful, or memorable..."
             required
             autoFocus
-            className="tf-input w-full p-3 rounded-xl text-xs bg-white/5 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] resize-none"
+            className="tf-input w-full p-3 rounded-xl text-xs bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)] resize-none"
           />
 
           <button
             type="submit"
-            className="w-full py-3 rounded-2xl font-bold text-sm bg-[var(--tf-accent-ink)] text-black shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer text-center"
+            className="w-full py-3 rounded-2xl font-bold text-sm bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer text-center"
           >
             Save Note to Ledger
           </button>

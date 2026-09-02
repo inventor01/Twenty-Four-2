@@ -56,7 +56,7 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
           color: 'var(--tf-ink)',
         }}
       >
-        <div className="w-10 h-1 rounded-full bg-white/20 mx-auto -mt-1 mb-1" />
+        <div className="w-10 h-1 rounded-full bg-[rgba(var(--tf-surf-rgb),0.2)] mx-auto -mt-1 mb-1" />
 
         <div className="flex items-center justify-between">
           <h3 className="text-base font-bold text-[var(--tf-ink)] tracking-tight">
@@ -64,7 +64,7 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
           </h3>
           <button
             onClick={onClose}
-            className="text-xs px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[var(--tf-ink)] opacity-70 cursor-pointer"
+            className="text-xs px-2.5 py-1 rounded-full bg-[rgba(var(--tf-surf-rgb),0.1)] hover:bg-[rgba(var(--tf-surf-rgb),0.2)] text-[var(--tf-ink)] opacity-70 cursor-pointer"
           >
             ✕
           </button>
@@ -78,7 +78,7 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
               value={emoji}
               onChange={(e) => setEmoji(e.target.value)}
               maxLength={2}
-              className="tf-input w-12 h-11 text-center text-xl rounded-xl bg-white/5 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)]"
+              className="tf-input w-12 h-11 text-center text-xl rounded-xl bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)]"
             />
             <input
               type="text"
@@ -86,7 +86,7 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
               onChange={(e) => setName(e.target.value)}
               placeholder="Category Name"
               required
-              className="tf-input flex-1 h-11 px-3 rounded-xl text-sm bg-white/5 border border-white/10 text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)]"
+              className="tf-input flex-1 h-11 px-3 rounded-xl text-sm bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] text-[var(--tf-ink)] focus:border-[var(--tf-accent-ink)]"
             />
           </div>
 
@@ -97,7 +97,7 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
                 type="button"
                 key={em}
                 onClick={() => setEmoji(em)}
-                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-sm flex items-center justify-center flex-shrink-0 cursor-pointer"
+                className="w-8 h-8 rounded-lg bg-[rgba(var(--tf-surf-rgb),0.05)] hover:bg-[rgba(var(--tf-surf-rgb),0.1)] text-sm flex items-center justify-center flex-shrink-0 cursor-pointer"
               >
                 {em}
               </button>
@@ -114,7 +114,7 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
                   key={c}
                   onClick={() => setColor(c)}
                   className={`h-8 rounded-xl transition-all cursor-pointer flex items-center justify-center ${
-                    color === c ? 'ring-2 ring-white scale-105 shadow-md' : 'opacity-70 hover:opacity-100'
+                    color === c ? 'ring-2 ring-[var(--tf-ink)] scale-105 shadow-md' : 'opacity-70 hover:opacity-100'
                   }`}
                   style={{ background: c }}
                 >
@@ -135,8 +135,8 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
                   onClick={() => setKind(k)}
                   className={`py-2 rounded-xl text-xs font-medium capitalize transition-all cursor-pointer ${
                     kind === k
-                      ? 'bg-[var(--tf-accent-ink)] text-black font-bold'
-                      : 'bg-white/5 border border-white/10 opacity-70 hover:opacity-100'
+                      ? 'bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] font-bold'
+                      : 'bg-[rgba(var(--tf-surf-rgb),0.05)] border border-[rgba(var(--tf-surf-rgb),0.1)] opacity-70 hover:opacity-100'
                   }`}
                 >
                   {k}
@@ -163,7 +163,7 @@ export const CategoryEditorSheet: React.FC<CategoryEditorSheetProps> = ({
             )}
             <button
               type="submit"
-              className="flex-1 py-3 rounded-2xl font-bold text-sm bg-[var(--tf-accent-ink)] text-black shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer text-center"
+              className="flex-1 py-3 rounded-2xl font-bold text-sm bg-[var(--tf-accent-ink)] text-[var(--tf-on-accent)] shadow-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer text-center"
             >
               {category ? 'Save Changes' : 'Create Category'}
             </button>
